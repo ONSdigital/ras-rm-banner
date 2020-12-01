@@ -9,7 +9,7 @@ client = TestClient(app)
 class TestDataStore(unittest.TestCase):
     Banners = [
         {
-            "Title": "SDX is not working",
+            "Title": "SDX is not working111",
             "Value": "We are carrying out essential maintenance to the service.\
                 Please continue to use the system and submit data as normal.\
                 It will only affect your response status which may not display\
@@ -44,6 +44,14 @@ class TestDataStore(unittest.TestCase):
         response = client.get('/test')
         assert response.status_code == 404
 
+    def test_get_a_banner(self):
+        with patch('banner.main.datastore_client') as client_mock:
+            query_mock = MagicMock()
+            client_mock.query.return_value = query_mock
+            query_mock.fetch.return_value = [TestDataStore.Banners[0]["Title"]]
+            actual = get_a_banner('SDX is not working')
+            self.assertEqual('SDX is not working', actual)
+
     # Testing creating a new banner
     def test_create_banner(self):
         with patch('banner.main.datastore_client') as client_mock:
@@ -52,17 +60,11 @@ class TestDataStore(unittest.TestCase):
             self.assertTrue(client_mock.called)
             self.assertTrue(client_mock.put(client_mock))
 
-    def test_get_a_banner(self):
-        with patch('banner.main.datastore_client') as client_mock:
-            query_mock = MagicMock()
-            client_mock().query.return_value = query_mock
-            query_mock.fetch.return_value = [TestDataStore.Banners[0]["Title"]]
-            actual = get_a_banner('SDX is not working')
-            self.assertEqual(['SDX is not working'], actual)
-
     def test_delete_banner(self):
         with patch('banner.main.datastore_client') as client_mock:
-            client_mock().delete.return_value = MagicMock()
+            query_mock = MagicMock()
+            client_mock.query.return_value = query_mock
+            query_mock.fetch.return_value = [TestDataStore.Banners[0]]
             delete_banner('SDX is not working')
             self.assertTrue(client_mock.called)
             self.assertTrue(client_mock.delete(client_mock))
