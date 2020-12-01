@@ -65,4 +65,4 @@ class TestDataStore(unittest.TestCase):
             client_mock().delete.return_value = MagicMock()
             delete_banner('SDX is not working')
             self.assertTrue(client_mock.called)
-            self.assertTrue(client_mock.put(client_mock))
+            self.assertTrue(client_mock.delete(client_mock))

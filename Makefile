@@ -4,10 +4,10 @@ build:
 	pip3 install -r requirements.txt
 
 lint:
-	flake8 ./banner-api ./tests
+	flake8 ./banner ./tests
 
 start:
-	uvicorn main:app --reload
+	uvicorn banner.main:app --reload
 
 test: lint
-	pytest tests
+	 coverage run -m pytest tests
