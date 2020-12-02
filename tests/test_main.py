@@ -64,7 +64,7 @@ class TestDataStore(unittest.TestCase):
     def test_delete_banner(self):
         with patch('banner.routes.datastore_client') as client_mock:
             query_mock = MagicMock()
-            client_mock.query.return_value = query_mock
+            client_mock.delete.return_value = query_mock
             query_mock.fetch.return_value = [TestDataStore.Banners[0]]
             delete_banner('SDX is not working')
             self.assertTrue(client_mock.called)

@@ -41,7 +41,9 @@ This service will also be harnessed for upcoming work on frontstage.
 - **API** - The API will use the first 4 endpoints to manage the banners, giving the user the ability to Create, Update and Delete within Datastore. The 6th endpoint `PUT/PATCH /banner-active/<banner-title-Id` will update the `banner_active` attribute to corresponding banner selected in response Ops. Firstly, a check will be made on `set_date` and `remove_date` to see whether a scheduled event is required. If not, the active banner will be updated and posted to frontstage.
 - **Scheduler** - Cronjob, Google cloud task or Python APScheduler. To be investigated
 
-What if a banner is set during 
+##Documentation
+* `/docs` - automatic interactive API documentation (Swagger)
+* `redocs` - alternative automatic documentation (ReDoc)
 
 ### Steps to take
 1. Connect to GCP Datastore with microservice (Service account in sandbox at first)

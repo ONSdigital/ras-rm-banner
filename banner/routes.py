@@ -49,17 +49,17 @@ def get_a_banner(banner_title_id: str):
 
 # Creates a new banner or replace a banner Datastore. Needs to be valid JSON
 @app.post('/banner')
-def create_banner(new_banner: dict):
+def create_banner(new_banner: Banner):
     try:
-        entity_key = datastore_client.key('Banner', new_banner['Title'])
+        entity_key = datastore_client.key('Banner', new_banner.title)
         entity = datastore.Entity(key=entity_key)
         entity.update(
             {
-                "Title": new_banner['Title'],
-                "Value": new_banner['Value'],
-                "set_time": new_banner['set_time'],
-                "remove_time": new_banner['remove_time'],
-                "banner_active": new_banner['banner_active']
+                "Title": new_banner.title,
+                "Value": new_banner.value,
+                "set_time": new_banner.set_time,
+                "remove_time": new_banner.remove_time,
+                "banner_active": new_banner.banner_active
             }
         )
         return datastore.Client().put(entity)
