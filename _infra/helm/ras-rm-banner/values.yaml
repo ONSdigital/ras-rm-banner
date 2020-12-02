@@ -1,0 +1,24 @@
+env: ras-rm-sandbox
+namespace: holrot
+publicIP: false
+
+replicas: 1
+rollingUpdate:
+  maxSurge: 1
+  maxUnavailable: 1
+
+gcp:
+  project: ras-rm-sandbox
+  topic: ras-rm-banner
+
+image:
+  devRepo: eu.gcr.io/ras-rm-sandbox
+  name: banner
+  tag: latest
+  pullPolicy: Always
+
+container:
+  port: 8000
+service:
+  type: ClusterIP
+  port: 8000

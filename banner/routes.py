@@ -17,6 +17,11 @@ class Banner(BaseModel):
     banner_active: bool
 
 
+@app.get('/')
+def route():
+    return {'FastAPI'}
+
+
 # Gets all banners out of Datastore
 @app.get('/banner')
 def get_banner():
