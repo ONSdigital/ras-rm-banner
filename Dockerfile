@@ -1,9 +1,9 @@
-FROM python:3.8
-
-WORKDIR /banner
+FROM python:3.8-slim
 
 COPY requirements.txt .
 
+COPY banner .
+
 RUN pip install -r requirements.txt
 
-CMD ["uvicorn", "banner.main:app"]
+CMD ["uvicorn", "routes:app"]

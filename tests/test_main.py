@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from banner.main import app, get_banner, create_banner, get_a_banner, delete_banner
+from banner.routes import get_banner, create_banner, get_a_banner, delete_banner, app
 from fastapi.testclient import TestClient
 
 client = TestClient(app)
@@ -9,7 +9,7 @@ client = TestClient(app)
 class TestDataStore(unittest.TestCase):
     Banners = [
         {
-            "Title": "SDX is not working111",
+            "Title": "SDX is not working",
             "Value": "We are carrying out essential maintenance to the service.\
                 Please continue to use the system and submit data as normal.\
                 It will only affect your response status which may not display\
@@ -29,7 +29,7 @@ class TestDataStore(unittest.TestCase):
         }]
 
     def test_get_banner_correct_response(self):
-        with patch('banner.main.datastore_client') as client_mock:
+        with patch('banner.routes.datastore_client') as client_mock:
             query_mock = MagicMock()
             client_mock.query.return_value = query_mock
             query_mock.fetch.return_value = [TestDataStore.Banners]
@@ -45,7 +45,7 @@ class TestDataStore(unittest.TestCase):
         assert response.status_code == 404
 
     def test_get_a_banner(self):
-        with patch('banner.main.datastore_client') as client_mock:
+        with patch('banner.routes.datastore_client') as client_mock:
             query_mock = MagicMock()
             client_mock.query.return_value = query_mock
             query_mock.fetch.return_value = [TestDataStore.Banners[0]["Title"]]
@@ -54,14 +54,15 @@ class TestDataStore(unittest.TestCase):
 
     # Testing creating a new banner
     def test_create_banner(self):
-        with patch('banner.main.datastore_client') as client_mock:
+        with patch('banner.routes.datastore_client') as client_mock:
             client_mock().put.return_value = MagicMock()
             create_banner(self.Banners[0])
             self.assertTrue(client_mock.called)
             self.assertTrue(client_mock.put(client_mock))
 
+    # Testing banner deletion
     def test_delete_banner(self):
-        with patch('banner.main.datastore_client') as client_mock:
+        with patch('banner.routes.datastore_client') as client_mock:
             query_mock = MagicMock()
             client_mock.query.return_value = query_mock
             query_mock.fetch.return_value = [TestDataStore.Banners[0]]

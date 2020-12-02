@@ -1,5 +1,5 @@
 env: ras-rm-sandbox
-namespace: holrot
+namespace: dev
 publicIP: false
 
 replicas: 1

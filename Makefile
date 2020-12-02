@@ -7,7 +7,7 @@ lint:
 	flake8 ./banner ./tests
 
 start:
-	uvicorn banner.main:app --reload
+	uvicorn banner.routes:app --reload
 
 test: lint
 	 coverage run -m pytest tests
