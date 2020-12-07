@@ -23,7 +23,7 @@ This service will also be harnessed for upcoming work on frontstage.
 * `PUT/PATCH /banner-active/<banner-title-Id>` - Updates the banner_active attributes accordingly.
 * `POST /banner-active/<banner-title-Id>`- Posts an active banner change to frontstage
 
-#### Documentation
+#### FastAPI Documentation
 * `/docs` - automatic interactive API documentation (Swagger)
 * `redocs` - alternative automatic documentation (ReDoc) 
 

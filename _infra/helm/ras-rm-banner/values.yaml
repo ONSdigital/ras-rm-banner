@@ -12,7 +12,7 @@ gcp:
   topic: ras-rm-banner
 
 image:
-  devRepo: eu.gcr.io/ras-rm-sandbox
+  devRepo: eu.gcr.io/ons-rasrmbs-management
   name: banner
   tag: latest
   pullPolicy: Always

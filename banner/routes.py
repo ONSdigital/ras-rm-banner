@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-
+from banner.logger import logger
 from fastapi import FastAPI
 from google.cloud import datastore
 from pydantic import BaseModel
