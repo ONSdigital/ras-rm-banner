@@ -1,3 +1,4 @@
+<!-- Testing Github actions -->
 # Banner Management Service
 Creating *banner-management-service* api will allow banners to be stored, updated and deleted without response-ops dealing with a DB connection. The current implementation uses REDIS by setting a variable within response ops using a predefined list of alerts, which is then read by frontstage. This does not allow for multiple banners to be managed. This service will a lightweight API written in Python using FastAPI framework that connects to the GCP datastore where alert banners will be housed. This design also allows for a scheduler to be implemented, which is required for setting and removing banner at specific times.
 This service will also be harnessed for upcoming work on frontstage.
