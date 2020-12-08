@@ -32,14 +32,6 @@ class TestDataStore(unittest.TestCase):
             actual = get_banner()
             self.assertEqual([self.Banners], actual)
 
-    def test_get_banner_response_code_200(self):
-        response = client.get('/banner')
-        assert response.status_code == 200
-
-    def test_get_banner_response_code_404(self):
-        response = client.get('/test')
-        assert response.status_code == 404
-
     def test_get_a_banner(self):
         with patch('banner.routes.datastore_client') as client_mock:
             query_mock = MagicMock()
