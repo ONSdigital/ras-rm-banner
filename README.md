@@ -11,7 +11,7 @@ This service will also be harnessed for upcoming work on frontstage.
 
 ![](./images/api-design.png?raw=true)
 
-
+##TESTING
 ## API endpoints
 #### Management of Banners
 * `GET /banner` - Returns a JSON response of all the current alert banners stored in Datastore
