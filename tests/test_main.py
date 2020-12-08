@@ -1,9 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from banner.routes import get_banner, get_a_banner, app
-from fastapi.testclient import TestClient
-
-client = TestClient(app)
+from banner.routes import get_banner, get_a_banner
 
 
 class TestDataStore(unittest.TestCase):
