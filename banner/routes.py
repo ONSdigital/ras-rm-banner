@@ -1,6 +1,5 @@
 import logging
-from datetime import datetime
-from banner.logger import logger
+
 from fastapi import FastAPI
 from google.cloud import datastore
 from pydantic import BaseModel
@@ -12,8 +11,6 @@ datastore_client = datastore.Client()
 class Banner(BaseModel):
     title: str
     value: str
-    set_time: datetime
-    remove_time: datetime
     banner_active: bool
 
 
@@ -37,7 +34,7 @@ def get_banner():
 def get_a_banner(banner_title_id: str):
     try:
         query = datastore_client.query(kind='Banner')
-        query.add_filter('Title', '=', banner_title_id)
+        query.add_filter('title', '=', banner_title_id)
         query = list(query.fetch())
         if query:
             return query[0]
@@ -55,10 +52,8 @@ def create_banner(new_banner: Banner):
         entity = datastore.Entity(key=entity_key)
         entity.update(
             {
-                "Title": new_banner.title,
-                "Value": new_banner.value,
-                "set_time": new_banner.set_time,
-                "remove_time": new_banner.remove_time,
+                "title": new_banner.title,
+                "value": new_banner.value,
                 "banner_active": new_banner.banner_active
             }
         )
@@ -72,7 +67,7 @@ def create_banner(new_banner: Banner):
 def delete_banner(banner_title_id: str):
     try:
         query = datastore_client.query(kind='Banner')
-        query.add_filter('Title', '=', banner_title_id)
+        query.add_filter('title', '=', banner_title_id)
         query = list(query.fetch())
         if query:
             return datastore_client.delete(query[0].key)

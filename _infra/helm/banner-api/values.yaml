@@ -9,11 +9,11 @@ rollingUpdate:
 
 gcp:
   project: ras-rm-sandbox
-  topic: ras-rm-banner
+  topic: banner-api
 
 image:
   devRepo: eu.gcr.io/ons-rasrmbs-management
-  name: banner
+  name: banner-api
   tag: latest
   pullPolicy: Always
 
@@ -21,4 +21,4 @@ container:
   port: 8000
 service:
   type: ClusterIP
-  port: 8000
+  port: 8080

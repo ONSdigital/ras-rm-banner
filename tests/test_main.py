@@ -9,22 +9,18 @@ client = TestClient(app)
 class TestDataStore(unittest.TestCase):
     Banners = [
         {
-            "Title": "SDX is not working",
-            "Value": "We are carrying out essential maintenance to the service.\
+            "title": "SDX is not working",
+            "value": "We are carrying out essential maintenance to the service.\
                 Please continue to use the system and submit data as normal.\
                 It will only affect your response status which may not display\
                 as completed until the maintenance has been completed.",
-            "set_time": None,
-            "remove_time": None,
             "banner_active": True
         },
         {
-            "Title": "Unexpected outage",
-            "Value": "We are currently experiencing technical difficulties.\
+            "title": "Unexpected outage",
+            "value": "We are currently experiencing technical difficulties.\
                 Our engineers are investigating and hope to have the service\
                 back up shortly.Thank you for your patience",
-            "set_time": "2020-11-27T10:47:28.680000+00:00",
-            "remove_time": "2020-11-27T10:47:28.680000+00:00",
             "banner_active": False
         }]
 
@@ -48,7 +44,7 @@ class TestDataStore(unittest.TestCase):
         with patch('banner.routes.datastore_client') as client_mock:
             query_mock = MagicMock()
             client_mock.query.return_value = query_mock
-            query_mock.fetch.return_value = [TestDataStore.Banners[0]["Title"]]
+            query_mock.fetch.return_value = [TestDataStore.Banners[0]["title"]]
             actual = get_a_banner('SDX is not working')
             self.assertEqual('SDX is not working', actual)
 
