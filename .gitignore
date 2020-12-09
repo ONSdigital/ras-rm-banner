@@ -3,3 +3,11 @@ __pycache__
 .idea/
 .coverage
 logs.log
+target/
+*.jar
+
+.project
+.settings/
+.classpath
+.vscode/
+.factorypath
