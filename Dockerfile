@@ -1,9 +1,17 @@
-FROM python:3.8-slim
+FROM adoptopenjdk/openjdk11:jre-11.0.9.1_1-alpine
 
-COPY requirements.txt .
+RUN addgroup -S banner-group && adduser -S sample-user -G banner-group
 
-COPY banner .
+RUN mkdir -p "/opt/banner"
+RUN chown banner-user:banner-group /opt/banner
 
-RUN pip install -r requirements.txt
+WORKDIR "/opt/banner"
 
-CMD ["uvicorn", "routes:app"]
+COPY target/banner-api.jar .
+
+#RUN chmod 550 /opt/banner/banner-api.jar
+RUN chown banner-user:banner-group /opt/banner/banner-api.jar
+
+USER banner-user
+
+CMD ["java", "-jar", "banner-api.jar"]
