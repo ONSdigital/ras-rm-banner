@@ -3,6 +3,7 @@ package uk.gov.onsdigital.banner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -51,5 +52,16 @@ public class BannerControllerIT {
         List.class);
     
     assertEquals(1, banners.size());
+  }
+
+  @Test
+  public void willReturnASingleBannerObject() {
+    BannerModel expectedBanner = BannerModel.builder().build();
+    Mockito.when(bannerRepo.findById("test1"))
+      .thenReturn(Optional.of(expectedBanner));
+    BannerModel actualBanner = this.restTemplate.getForObject("http://localhost:" + port + "/banner/test1",
+      BannerModel.class);
+    
+    assertEquals(expectedBanner, actualBanner);
   }
 }
