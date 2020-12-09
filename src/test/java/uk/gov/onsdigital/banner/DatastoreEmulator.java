@@ -17,7 +17,11 @@ public class DatastoreEmulator {
   public static void startDatastore() {
     logger.info("[Datastore-Emulator] start");
     try {
-      emulator = LocalDatastoreHelper.newBuilder().setStoreOnDisk(false).build();
+      emulator = 
+        LocalDatastoreHelper.newBuilder()
+          .setStoreOnDisk(false)
+          .setPort(8989)
+          .build();
       emulator.start();
     } catch(Exception e) {
       logger.error("Datastore emulator error", e);
