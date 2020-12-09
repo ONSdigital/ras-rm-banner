@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -68,5 +69,12 @@ public class BannerController {
       LOGGER.info("supplied path variable is not a number");
       return ResponseEntity.badRequest().build();
     }
+  }
+
+  @PutMapping("")
+  public ResponseEntity<BannerModel> updateBanner(
+      @RequestBody BannerModel banner) {
+    BannerModel savedBanner = bannerRepo.save(banner);
+    return ResponseEntity.ok(savedBanner);
   }
 }

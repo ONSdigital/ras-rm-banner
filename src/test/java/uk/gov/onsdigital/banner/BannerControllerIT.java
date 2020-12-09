@@ -84,14 +84,6 @@ public class BannerControllerIT {
 
   @Test
   public void willRemoveBanner() {
-    BannerModel postedBanner = BannerModel.builder()
-      .title("BannerTitle")
-      .active(false)
-      .content("Banner Content")
-      .build();
-
-    Mockito.when(bannerRepo.save(ArgumentMatchers.any()))
-      .thenReturn(postedBanner);
     this.restTemplate.delete(URI.create("http://localhost:" + port + "/banner/1")); 
     
     Mockito.verify(bannerRepo).deleteById(1L);
