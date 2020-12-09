@@ -30,11 +30,6 @@ public class BannerControllerIT {
     DatastoreEmulator.stopDatastore();
   }
 
-  @BeforeEach
-  public void init() {
-    DatastoreEmulator.clearDatastore();
-  }
-
   @LocalServerPort
 	private int port;
 
