@@ -1,6 +1,6 @@
 FROM adoptopenjdk/openjdk11:jre-11.0.9.1_1-alpine
 
-RUN addgroup -S banner-group && adduser -S sample-user -G banner-group
+RUN addgroup -S banner-group && adduser -S banner-user -G banner-group
 
 RUN mkdir -p "/opt/banner"
 RUN chown banner-user:banner-group /opt/banner
