@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class BannerModel {
   
   @Id
-	@Field(name = "id")
+  @Field(name = "id")
   private Long id;
   private Boolean active;
   private String content;
