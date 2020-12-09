@@ -9,7 +9,6 @@ rollingUpdate:
 
 gcp:
   project: ras-rm-sandbox
-  topic: banner-api
 
 image:
   devRepo: eu.gcr.io/ons-rasrmbs-management
@@ -20,5 +19,4 @@ image:
 container:
   port: 8000
 service:
-  type: ClusterIP
   port: 8080

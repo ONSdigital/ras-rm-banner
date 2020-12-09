@@ -1,5 +1,7 @@
 package uk.gov.onsdigital.banner;
 
+import static net.logstash.logback.argument.StructuredArguments.kv;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -38,10 +40,14 @@ public class BannerController {
   public ResponseEntity<BannerModel> getBanner(
       @PathVariable("id") String id) {
     try {
-      LOGGER.info("Retrieving banner for ID: " + id);
+      LOGGER.info("Retrieving banner" + id,
+        kv("id", id));
       Long longId = Long.valueOf(id);
       return bannerRepo.findById(longId)
-        .map(t -> ResponseEntity.ok().body(t))
+        .map(b -> {
+          LOGGER.info("Banner retrieved", kv("banner", b));
+          return ResponseEntity.ok().body(b);
+        })
         .orElseGet(() -> ResponseEntity.notFound().build());
     } catch(NumberFormatException e) {
       LOGGER.info("supplied path variable is not a number");
@@ -52,6 +58,7 @@ public class BannerController {
   @PostMapping("")
   public ResponseEntity<BannerModel> createBanner(
       @RequestBody BannerModel banner) {
+    LOGGER.info("saving banner", kv("banner", banner));
     BannerModel savedBanner = bannerRepo.save(banner);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(savedBanner);
@@ -62,7 +69,7 @@ public class BannerController {
       @PathVariable("id") String id) {
     try {
       Long longId = Long.valueOf(id);
-      LOGGER.info("Removing banner for ID: " + id);
+      LOGGER.info("Removing banner", kv("id", id));
       bannerRepo.deleteById(longId);
       return ResponseEntity.noContent().build();
     } catch(NumberFormatException e) {
@@ -74,6 +81,7 @@ public class BannerController {
   @PutMapping("")
   public ResponseEntity<BannerModel> updateBanner(
       @RequestBody BannerModel banner) {
+    LOGGER.info("updating banner", kv("banner", banner));
     BannerModel savedBanner = bannerRepo.save(banner);
     return ResponseEntity.ok(savedBanner);
   }
