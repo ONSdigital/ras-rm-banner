@@ -44,4 +44,22 @@ public class BannerRepositoryIT {
     assertTrue(model.getActive());
     assertEquals("Hello world", model.getContent());
   }
+
+  @Test
+  public void willGetFromDatastore() {
+    BannerModel model = 
+      bannerRepo.save(BannerModel.builder()
+        .title("A Banner")
+        .active(true)
+        .content("Hello world")
+        .build());
+    
+    assertEquals("A Banner", model.getTitle());
+    assertTrue(model.getActive());
+    assertEquals("Hello world", model.getContent());
+
+    BannerModel retrievedModel = bannerRepo.findById("A Banner").get();
+
+    assertEquals(model, retrievedModel);
+  }
 }
