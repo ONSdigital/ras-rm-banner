@@ -4,7 +4,13 @@ package:
 	mvn package -D skipTests=true
 
 test: clean
-	mvn test
+	mvn verify
+
+unit-tests: clean
+	mvn verify -DskipITs=true
+
+integration-tests: clean
+	mvn verify -DskipUTs=true
 
 clean:
 	mvn clean
