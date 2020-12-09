@@ -3,6 +3,7 @@ package uk.gov.onsdigital.banner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,5 +80,20 @@ public class BannerControllerIT {
     assertEquals(HttpStatus.CREATED, resp.getStatusCode());
     assertEquals(postedBanner, resp.getBody());
     Mockito.verify(bannerRepo).save(postedBanner);
+  }
+
+  @Test
+  public void willRemoveBanner() {
+    BannerModel postedBanner = BannerModel.builder()
+      .title("BannerTitle")
+      .active(false)
+      .content("Banner Content")
+      .build();
+
+    Mockito.when(bannerRepo.save(ArgumentMatchers.any()))
+      .thenReturn(postedBanner);
+    this.restTemplate.delete(URI.create("http://localhost:" + port + "/banner/1")); 
+    
+    Mockito.verify(bannerRepo).deleteById(1L);
   }
 }

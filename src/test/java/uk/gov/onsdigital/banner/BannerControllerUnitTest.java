@@ -78,4 +78,18 @@ public class BannerControllerUnitTest {
 
     assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
   }
+
+  @Test
+  public void willRemoveBanner() {
+    ResponseEntity<BannerModel> resp = bannerController.removeBanner("1");
+
+    assertEquals(HttpStatus.NO_CONTENT, resp.getStatusCode());
+  }
+
+  @Test
+  public void willReturnBadRequestIfPathVariableIsNotNumberOnDelete() {
+    ResponseEntity<BannerModel> resp = bannerController.removeBanner("abc");
+
+    assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
+  }
 }
