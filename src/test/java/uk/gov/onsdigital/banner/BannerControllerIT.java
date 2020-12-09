@@ -7,8 +7,8 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class BannerControllerIT {
@@ -52,11 +54,28 @@ public class BannerControllerIT {
   @Test
   public void willReturnASingleBannerObject() {
     BannerModel expectedBanner = BannerModel.builder().build();
-    Mockito.when(bannerRepo.findById("test1"))
+    Mockito.when(bannerRepo.findById(Long.valueOf("1")))
       .thenReturn(Optional.of(expectedBanner));
-    BannerModel actualBanner = this.restTemplate.getForObject("http://localhost:" + port + "/banner/test1",
+    BannerModel actualBanner = this.restTemplate.getForObject("http://localhost:" + port + "/banner/1",
       BannerModel.class);
     
     assertEquals(expectedBanner, actualBanner);
+  }
+
+  @Test
+  public void willCreateBanner() {
+    BannerModel postedBanner = BannerModel.builder()
+      .title("BannerTitle")
+      .active(false)
+      .content("Banner Content")
+      .build();
+
+    Mockito.when(bannerRepo.save(ArgumentMatchers.any()))
+      .thenReturn(postedBanner);
+    ResponseEntity<BannerModel> resp = this.restTemplate.postForEntity("http://localhost:" + port + "/banner", 
+      postedBanner, BannerModel.class);
+    
+    assertEquals(HttpStatus.CREATED, resp.getStatusCode());
+    assertEquals(postedBanner, resp.getBody());
   }
 }

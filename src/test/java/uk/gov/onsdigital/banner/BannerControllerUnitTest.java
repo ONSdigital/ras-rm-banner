@@ -39,8 +39,8 @@ public class BannerControllerUnitTest {
 
   @Test
   public void willReturnBannersIfData() {
-    BannerModel expected1 = BannerModel.builder().title("test1").build();
-    BannerModel expected2 = BannerModel.builder().title("test2").build();
+    BannerModel expected1 = BannerModel.builder().title("1").build();
+    BannerModel expected2 = BannerModel.builder().title("2").build();
 
     Mockito.when(bannerRepo.findAll())
       .thenReturn(List.of(expected1, expected2));
@@ -55,11 +55,11 @@ public class BannerControllerUnitTest {
 
   @Test
   public void willReturnSingleBanner() {
-    BannerModel expected1 = BannerModel.builder().title("test1").build();
-    Mockito.when(bannerRepo.findById("test1"))
+    BannerModel expected1 = BannerModel.builder().title("1").build();
+    Mockito.when(bannerRepo.findById(Long.valueOf("1")))
       .thenReturn(Optional.of(expected1));
 
-    ResponseEntity<BannerModel> resp = bannerController.getBanner("test1");
+    ResponseEntity<BannerModel> resp = bannerController.getBanner("1");
 
     assertEquals(HttpStatus.OK, resp.getStatusCode());
     assertEquals(expected1, resp.getBody());
@@ -67,7 +67,7 @@ public class BannerControllerUnitTest {
 
   @Test
   public void willReturn404IfNoBannerFound() {
-    ResponseEntity<BannerModel> resp = bannerController.getBanner("test1");
+    ResponseEntity<BannerModel> resp = bannerController.getBanner("1");
 
     assertEquals(HttpStatus.NOT_FOUND, resp.getStatusCode());
   }

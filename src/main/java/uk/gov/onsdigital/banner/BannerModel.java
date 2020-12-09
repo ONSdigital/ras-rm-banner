@@ -18,7 +18,8 @@ public class BannerModel {
   
   @Id
 	@Field(name = "name")
-  private String title;
+  private Long name;
   private Boolean active;
   private String content;
+  private String title;
 }
