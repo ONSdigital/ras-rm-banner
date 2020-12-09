@@ -58,7 +58,7 @@ public class BannerRepositoryIT {
     assertTrue(model.getActive());
     assertEquals("Hello world", model.getContent());
 
-    BannerModel retrievedModel = bannerRepo.findById(Long.valueOf(model.getName())).get();
+    BannerModel retrievedModel = bannerRepo.findById(model.getId()).get();
 
     assertEquals(model, retrievedModel);
   }

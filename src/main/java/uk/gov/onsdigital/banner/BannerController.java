@@ -1,12 +1,10 @@
 package uk.gov.onsdigital.banner;
 
-import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
