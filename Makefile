@@ -1,13 +1,10 @@
-all: build test
+all: test package
 .PHONY: all
-build:
-	pip3 install -r requirements.txt
+package:
+	mvn package -D skipTests=true
 
-lint:
-	flake8 ./banner ./tests
+test: clean
+	mvn test
 
-start:
-	uvicorn banner.routes:app --reload
-
-test: lint
-	 coverage run -m pytest tests
+clean:
+	mvn clean
