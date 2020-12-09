@@ -24,15 +24,27 @@ public class BannerControllerUnitTest {
   private BannerRepository bannerRepo;
 
   @Test
-  public void willReturnBanners() {
+  public void willReturn200() {
+    ResponseEntity<List<BannerModel>> resp = bannerController.getBanners();
+
+    assertEquals(HttpStatus.OK, resp.getStatusCode());
+  }
+
+  @Test
+  public void willReturnEmptyListIfNoData() {
+    ResponseEntity<List<BannerModel>> resp = bannerController.getBanners();
+
+    assertEquals(0, resp.getBody().size());
+  }
+
+  @Test
+  public void willReturnBannersIfData() {
     BannerModel expected1 = BannerModel.builder().title("test1").build();
     BannerModel expected2 = BannerModel.builder().title("test2").build();
 
     Mockito.when(bannerRepo.findAll())
       .thenReturn(List.of(expected1, expected2));
     ResponseEntity<List<BannerModel>> resp = bannerController.getBanners();
-
-    assertEquals(HttpStatus.OK, resp.getStatusCode());
     
     List<BannerModel> actualBanners = resp.getBody();
 
