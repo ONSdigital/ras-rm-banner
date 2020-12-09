@@ -14,7 +14,7 @@ public class DatastoreEmulator {
   
   public static LocalDatastoreHelper emulator;
 
-  public static void startDatastore() throws Exception {
+  public static void startDatastore() {
     logger.info("[Datastore-Emulator] start");
     try {
       emulator = LocalDatastoreHelper.newBuilder().setStoreOnDisk(false).build();
@@ -26,7 +26,7 @@ public class DatastoreEmulator {
     System.setProperty(DatastoreHelper.LOCAL_HOST_ENV_VAR, "localhost:" + emulator.getPort());
   }
 
-  public static void stopDatastore() throws Exception {
+  public static void stopDatastore() {
     logger.info("[Datastore-Emulator] stop");
     try {
       emulator.stop();  

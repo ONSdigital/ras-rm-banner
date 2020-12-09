@@ -28,17 +28,17 @@ import org.springframework.boot.web.server.LocalServerPort;
 public class BannerControllerIntegrationTest {
 
   @BeforeAll
-  public static void setUpClass() throws Exception {
+  public static void setUpClass() {
     DatastoreEmulator.startDatastore();
   }
 
   @AfterAll
-  public static void cleanUpClass() throws Exception {
+  public static void cleanUpClass() {
     DatastoreEmulator.stopDatastore();
   }
 
   @BeforeEach
-  public void init() throws IOException {
+  public void init() {
     DatastoreEmulator.clearDatastore();
   }
 

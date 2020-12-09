@@ -23,12 +23,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class ApplicationTest {
 
   @BeforeAll
-  public static void setUpClass() throws Exception {
+  public static void setUpClass() {
     DatastoreEmulator.startDatastore();
   }
 
   @AfterAll
-  public static void cleanUpClass() throws Exception {
+  public static void cleanUpClass() {
     DatastoreEmulator.stopDatastore();
   }
   
