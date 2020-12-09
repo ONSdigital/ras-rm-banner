@@ -41,11 +41,14 @@ public class BannerController {
       @PathVariable("id") String id) {
     try {
       LOGGER.info("Retrieving banner" + id,
+        kv("severity", "DEBUG"),
         kv("id", id));
       Long longId = Long.valueOf(id);
       return bannerRepo.findById(longId)
         .map(b -> {
-          LOGGER.info("Banner retrieved", kv("banner", b));
+          LOGGER.info("Banner retrieved", 
+            kv("banner", b),
+            kv("severity", "INFO"),);
           return ResponseEntity.ok().body(b);
         })
         .orElseGet(() -> ResponseEntity.notFound().build());
@@ -69,7 +72,8 @@ public class BannerController {
       @PathVariable("id") String id) {
     try {
       Long longId = Long.valueOf(id);
-      LOGGER.info("Removing banner", kv("id", id));
+      LOGGER.info("Removing banner", 
+        kv("id", id));
       bannerRepo.deleteById(longId);
       return ResponseEntity.noContent().build();
     } catch(NumberFormatException e) {

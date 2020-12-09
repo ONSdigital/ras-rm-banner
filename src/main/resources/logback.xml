@@ -1,0 +1,26 @@
+<configuration>
+  <appender name="jsonConsoleAppender"
+      class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+      <fieldNames>
+        <timestamp>[ignore]</timestamp>
+        <version>[ignore]</version>
+        <logger>[ignore]</logger>
+        <thread>[ignore]</thread>
+        <levelValue>[ignore]</levelValue>
+      </fieldNames>
+      <providers>
+        <globalCustomFields>
+          <customFields>{"service":"banner-api"}</customFields>
+        </globalCustomFields>
+        <logLevel>
+          <fieldName>level</fieldName>
+          <fieldName>severity</fieldName>
+        </logLevel>
+      </providers>
+    </encoder>
+  </appender>
+  <root level="INFO">
+    <appender-ref ref="jsonConsoleAppender"/>
+  </root>
+</configuration>
