@@ -48,7 +48,7 @@ public class BannerController {
         .map(b -> {
           LOGGER.info("Banner retrieved", 
             kv("banner", b),
-            kv("severity", "INFO"),);
+            kv("severity", "INFO"));
           return ResponseEntity.ok().body(b);
         })
         .orElseGet(() -> ResponseEntity.notFound().build());
