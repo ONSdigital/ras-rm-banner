@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.collections4.IteratorUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/banner")
 public class BannerController {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(BannerController.class);
+
   @Autowired
   private BannerRepository bannerRepo;
   
@@ -28,12 +32,19 @@ public class BannerController {
       .body(IteratorUtils.toList(bannerIter));
   }
 
-  @GetMapping("/{title}")
+  @GetMapping("/{id}")
   public ResponseEntity<BannerModel> getBanner(
-      @PathVariable("title") String title) {
-    return bannerRepo.findById(Long.valueOf(title))
+      @PathVariable("id") String id) {
+    try {
+      LOGGER.info("Retrieving banner for ID: " + id);
+      Long longId = Long.valueOf(id);
+      return bannerRepo.findById(longId)
         .map(t -> ResponseEntity.ok().body(t))
         .orElseGet(() -> ResponseEntity.notFound().build());
+    } catch(NumberFormatException e) {
+      LOGGER.info("supplied path variable is not a number");
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @PostMapping("")

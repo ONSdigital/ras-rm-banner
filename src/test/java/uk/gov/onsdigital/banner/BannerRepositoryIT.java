@@ -1,6 +1,7 @@
 package uk.gov.onsdigital.banner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.AfterAll;
@@ -43,6 +44,7 @@ public class BannerRepositoryIT {
     assertEquals("A Banner", model.getTitle());
     assertTrue(model.getActive());
     assertEquals("Hello world", model.getContent());
+    assertNotNull(model.getId());
   }
 
   @Test

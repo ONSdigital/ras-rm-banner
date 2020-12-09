@@ -1,6 +1,7 @@
 package uk.gov.onsdigital.banner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -77,5 +78,6 @@ public class BannerControllerIT {
     
     assertEquals(HttpStatus.CREATED, resp.getStatusCode());
     assertEquals(postedBanner, resp.getBody());
+    Mockito.verify(bannerRepo).save(postedBanner);
   }
 }

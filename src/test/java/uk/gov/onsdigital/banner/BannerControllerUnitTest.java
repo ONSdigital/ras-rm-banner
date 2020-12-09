@@ -71,4 +71,11 @@ public class BannerControllerUnitTest {
 
     assertEquals(HttpStatus.NOT_FOUND, resp.getStatusCode());
   }
+
+  @Test
+  public void willReturnBadRequestIfPathVariableIsNotNumber() {
+    ResponseEntity<BannerModel> resp = bannerController.getBanner("abc");
+
+    assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
+  }
 }
