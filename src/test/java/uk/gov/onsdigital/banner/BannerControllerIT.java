@@ -17,7 +17,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class BannerControllerIntegrationTest {
+public class BannerControllerIT {
 
   @BeforeAll
   public static void setUpClass() {
