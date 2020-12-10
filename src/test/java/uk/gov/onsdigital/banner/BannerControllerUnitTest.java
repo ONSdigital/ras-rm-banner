@@ -95,7 +95,7 @@ public class BannerControllerUnitTest {
 
   @Test
   public void willUpdateBanner() {
-    BannerModel expected1 = BannerModel.builder().title("1").id(1L).build();
+    BannerModel expected1 = BannerModel.builder().title("1").name(1L).build();
     ResponseEntity<BannerModel> resp = bannerController.updateBanner(expected1);
 
     assertEquals(HttpStatus.OK, resp.getStatusCode());

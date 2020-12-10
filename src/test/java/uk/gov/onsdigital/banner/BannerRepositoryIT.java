@@ -45,7 +45,7 @@ public class BannerRepositoryIT {
     assertEquals("A Banner", model.getTitle());
     assertTrue(model.getActive());
     assertEquals("Hello world", model.getContent());
-    assertNotNull(model.getId());
+    assertNotNull(model.getName());
   }
 
   @Test
@@ -61,7 +61,7 @@ public class BannerRepositoryIT {
     assertTrue(model.getActive());
     assertEquals("Hello world", model.getContent());
 
-    BannerModel retrievedModel = bannerRepo.findById(model.getId()).get();
+    BannerModel retrievedModel = bannerRepo.findById(model.getName()).get();
 
     assertEquals(model, retrievedModel);
   }
@@ -75,11 +75,11 @@ public class BannerRepositoryIT {
         .content("Hello world")
         .build());
     
-    assertNotNull(model.getId());
+    assertNotNull(model.getName());
 
-    bannerRepo.deleteById(model.getId());
+    bannerRepo.deleteById(model.getName());
 
-    assertFalse(bannerRepo.findById(model.getId()).isPresent());
+    assertFalse(bannerRepo.findById(model.getName()).isPresent());
   }
 
   @Test
@@ -91,11 +91,11 @@ public class BannerRepositoryIT {
         .content("Hello world")
         .build());
     
-    assertNotNull(model.getId());
+    assertNotNull(model.getName());
 
     model.setActive(false);
     bannerRepo.save(model);
 
-    assertFalse(bannerRepo.findById(model.getId()).get().getActive());
+    assertFalse(bannerRepo.findById(model.getName()).get().getActive());
   }
 }
