@@ -62,6 +62,7 @@ public class BannerController {
   public ResponseEntity<BannerModel> createBanner(
       @RequestBody BannerModel banner) {
     LOGGER.info("saving banner", kv("banner", banner));
+    banner.setActive(false);
     BannerModel savedBanner = bannerRepo.save(banner);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(savedBanner);

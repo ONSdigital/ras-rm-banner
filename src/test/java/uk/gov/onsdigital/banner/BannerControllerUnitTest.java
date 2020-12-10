@@ -1,6 +1,8 @@
 package uk.gov.onsdigital.banner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,6 +80,16 @@ public class BannerControllerUnitTest {
     ResponseEntity<BannerModel> resp = bannerController.getBanner("abc");
 
     assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
+  }
+
+  @Test
+  public void willWillDefaultToFalseOnBannerCreate() {
+    BannerModel spyModel = Mockito.spy(BannerModel.class);
+    assertNull(spyModel.getActive());
+    bannerController.createBanner(spyModel);
+
+    assertFalse(spyModel.getActive());
+    Mockito.verify(bannerRepo).save(spyModel);
   }
 
   @Test
