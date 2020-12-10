@@ -18,7 +18,11 @@ spec:
             secretName: google-application-credentials
       containers:
         - name: {{ .Chart.Name }}
-          image: {{ .Values.image.devRepo }}/{{ .Values.image.name }}:{{ .Values.image.tag }}
+          {{- if eq .Values.image.tag "latest"}}
+          image: "{{ .Values.image.name }}/{{ .Chart.Name }}:{{ .Chart.AppVersion }}"
+          {{- else}}
+          image: "{{ .Values.image.devRepo }}/{{ .Chart.Name }}:{{ .Values.image.tag }}"
+          {{- end}}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - name: google-cloud-key
@@ -48,3 +52,5 @@ spec:
             value: /var/secrets/google/credentials.json
           - name: SPRING_CLOUD_GCP_PROJECT_ID
             value: {{ .Values.gcp.project }}
+          - name: SERVER_PORT
+            value: "{{ .Values.container.port }}"
