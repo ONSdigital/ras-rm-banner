@@ -46,3 +46,5 @@ spec:
           env:
           - name: GOOGLE_APPLICATION_CREDENTIALS
             value: /var/secrets/google/credentials.json
+          - name: SPRING_CLOUD_GCP_PROJECT_ID
+            value: {{ .Values.gcp.project }}

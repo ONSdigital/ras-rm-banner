@@ -1,13 +1,21 @@
-all: build test
+all: test package
 .PHONY: all
-build:
-	pip3 install -r requirements.txt
+package:
+	mvn package -D skipTests=true
 
-lint:
-	flake8 ./banner ./tests
+test: check-env clean
+	mvn verify
 
-start:
-	uvicorn banner.routes:app --reload
+unit-tests: clean
+	mvn verify -DskipITs=true
 
-test: lint
-	 coverage run -m pytest tests
+integration-tests: check-env clean
+	mvn verify -DskipUTs=true
+
+clean:
+	mvn clean
+
+check-env:
+ifndef GOOGLE_APPLICATION_CREDENTIALS
+	$(error GOOGLE_APPLICATION_CREDENTIALS must be set to run integration tests)
+endif
