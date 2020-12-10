@@ -52,3 +52,5 @@ spec:
             value: /var/secrets/google/credentials.json
           - name: SPRING_CLOUD_GCP_PROJECT_ID
             value: {{ .Values.gcp.project }}
+          - name: SERVER_PORT
+            value: "{{ .Values.container.port }}"
