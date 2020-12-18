@@ -5,8 +5,6 @@ import static net.logstash.logback.argument.StructuredArguments.kv;
 import java.util.Iterator;
 import java.util.List;
 
-import com.google.cloud.datastore.Batch.Response;
-
 import org.apache.commons.collections4.IteratorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
