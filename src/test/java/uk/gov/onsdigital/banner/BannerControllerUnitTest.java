@@ -3,12 +3,14 @@ package uk.gov.onsdigital.banner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.never;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -108,9 +110,45 @@ public class BannerControllerUnitTest {
 
   @Test
   public void willUpdateBanner() {
-    BannerModel expected1 = BannerModel.builder().title("1").id(1L).build();
-    ResponseEntity<BannerModel> resp = bannerController.updateBanner(expected1);
+    BannerModel newBanner = BannerModel.builder().title("1").id(1L).build();
+    BannerModel preExisting = BannerModel.builder().title("title").active(false).id(1L).build();
+    Mockito.when(bannerRepo.findById(1L))
+      .thenReturn(Optional.of(preExisting));
+
+    ResponseEntity<BannerModel> resp = bannerController.updateBanner(newBanner);
 
     assertEquals(HttpStatus.OK, resp.getStatusCode());
+
+    Mockito.verify(bannerRepo, never()).save(newBanner);
+    Mockito.verify(bannerRepo).save(preExisting);
+    assertFalse(preExisting.getActive());
+    assertEquals("1", preExisting.getTitle());
+  }
+
+  @Test
+  public void willReturn204IfNoChangesToYpdate() {
+    BannerModel expected = BannerModel.builder().title("1").id(1L).build();
+    Mockito.when(bannerRepo.findById(1L))
+      .thenReturn(Optional.of(expected));
+    ResponseEntity<BannerModel> resp = bannerController.updateBanner(expected);
+
+    assertEquals(HttpStatus.NO_CONTENT, resp.getStatusCode());
+  }
+
+  @Test
+  public void willReturn400IfNullBannerSuppliedForUpdate() {
+    ResponseEntity<BannerModel> resp = bannerController.updateBanner(null);
+
+    assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
+  }
+
+  @Test
+  public void willReturn204IfNullBannerIdSuppliedForUpdate() {
+    BannerModel banner = BannerModel.builder().title("1").build();
+    ResponseEntity<BannerModel> resp = bannerController.updateBanner(banner);
+
+    assertEquals(HttpStatus.NO_CONTENT, resp.getStatusCode());
+
+    Mockito.verify(bannerRepo, never()).save(Mockito.any());
   }
 }
