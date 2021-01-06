@@ -1,9 +1,6 @@
 package uk.gov.onsdigital.banner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.never;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -23,9 +20,6 @@ public class BannerControllerUnitTest {
   
   @InjectMocks
   private BannerController bannerController;
-
-  @Mock
-  private BannerRepository bannerRepo;
 
   @Mock
   private BannerService bannerService;

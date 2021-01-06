@@ -41,9 +41,6 @@ public class BannerControllerIT {
   private TestRestTemplate restTemplate;
 
   @MockBean
-  private BannerRepository bannerRepo;
-
-  @MockBean
   private BannerService bannerService;
   
   @Test
