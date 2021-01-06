@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -28,6 +29,9 @@ public class BannerController {
 
   @Autowired
   private BannerRepository bannerRepo;
+
+  @Autowired
+  private BannerService bannerService;
   
   @GetMapping("")
   public ResponseEntity<List<BannerModel>> getBanners() {
@@ -36,7 +40,7 @@ public class BannerController {
       .body(IteratorUtils.toList(bannerIter));
   }
 
-  @GetMapping("/live")
+  @GetMapping("/active")
   public ResponseEntity<BannerModel> getActiveBanner() {
     return bannerRepo.findActiveBanner()
       .map(ResponseEntity.ok()::body)
@@ -61,6 +65,22 @@ public class BannerController {
         .orElseGet(() -> ResponseEntity.notFound().build());
     } catch(NumberFormatException e) {
       LOGGER.info("supplied path variable is not a number");
+      return ResponseEntity.badRequest().build();
+    }
+  }
+
+  @PatchMapping("/{id}/active")
+  public ResponseEntity<BannerModel> setBannerToActive(
+      @PathVariable("id") String id) {
+    try {
+      BannerModel savedBanner = bannerService.setActiveBanner(id);
+      return ResponseEntity.status(HttpStatus.OK)
+        .body(savedBanner);
+    } catch(NumberFormatException ex) {
+      LOGGER.info("supplied path variable is not a number", kv("banner_id", id));
+      return ResponseEntity.badRequest().build();
+    } catch(IllegalArgumentException ex) {
+      LOGGER.info("supplied banner does not exist", kv("banner_id", id));
       return ResponseEntity.badRequest().build();
     }
   }

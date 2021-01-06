@@ -42,6 +42,9 @@ public class BannerControllerIT {
 
   @MockBean
   private BannerRepository bannerRepo;
+
+  @MockBean
+  private BannerService bannerService;
   
   @Test
   public void willReturnBannersObject() {
@@ -93,8 +96,18 @@ public class BannerControllerIT {
   public void willGetActiveBanner() {
     Mockito.when(bannerRepo.findActiveBanner())
       .thenReturn(Optional.of(BannerModel.builder().build()));
-    BannerModel banner = this.restTemplate.getForObject("http://localhost:" + port + "/banner/live",
+    BannerModel banner = this.restTemplate.getForObject("http://localhost:" + port + "/banner/active",
         BannerModel.class);
+    
+    assertNotNull(banner);
+  }
+
+  @Test
+  public void willSetAnActiveBanner() {
+    Mockito.when(bannerService.setActiveBanner("1"))
+      .thenReturn(BannerModel.builder().build());
+    BannerModel banner = this.restTemplate.patchForObject("http://localhost:" + port + "/banner/1/active",
+        null, BannerModel.class);
     
     assertNotNull(banner);
   }
