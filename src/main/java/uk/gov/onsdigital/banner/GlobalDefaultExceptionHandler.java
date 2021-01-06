@@ -14,7 +14,7 @@ class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler(RuntimeException.class)
   protected ResponseEntity<Object> handleConflict(
         RuntimeException ex, WebRequest request) {
-    String bodyOfResponse = "Unhandled exception has been caught";
+    String bodyOfResponse = "The service has thrown an unexpected runtime exception";
     return handleExceptionInternal(ex, bodyOfResponse, 
       new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
   }

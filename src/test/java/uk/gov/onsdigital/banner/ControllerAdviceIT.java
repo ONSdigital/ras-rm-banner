@@ -35,5 +35,6 @@ public class ControllerAdviceIT {
     MvcResult result = mockMvc.perform(requestBuilder).andReturn();
     
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), result.getResponse().getStatus());
+    assertEquals("The service has thrown an unexpected runtime exception", result.getResponse().getContentAsString());
   }
 }
