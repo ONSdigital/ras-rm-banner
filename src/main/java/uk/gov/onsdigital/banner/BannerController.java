@@ -43,7 +43,7 @@ public class BannerController {
 
   @GetMapping("/active")
   public ResponseEntity<BannerModel> getActiveBanner() {
-    return bannerRepo.findActiveBanner()
+    return bannerService.getActiveBanner()
       .map(ResponseEntity.ok()::body)
       .orElseGet(() -> ResponseEntity.noContent().build());
   }

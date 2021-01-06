@@ -93,7 +93,7 @@ public class BannerControllerIT {
 
   @Test
   public void willGetActiveBanner() {
-    Mockito.when(bannerRepo.findActiveBanner())
+    Mockito.when(bannerService.getActiveBanner())
       .thenReturn(Optional.of(BannerModel.builder().build()));
     BannerModel banner = this.restTemplate.getForObject("http://localhost:" + port + "/banner/active",
         BannerModel.class);

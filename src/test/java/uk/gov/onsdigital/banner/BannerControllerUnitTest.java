@@ -122,23 +122,25 @@ public class BannerControllerUnitTest {
 
   @Test
   public void willReturn204NoActiveBanner() {
+    Mockito.when(bannerService.getActiveBanner())
+      .thenReturn(Optional.empty());
     ResponseEntity<BannerModel> resp = bannerController.getActiveBanner();
 
     assertEquals(HttpStatus.NO_CONTENT, resp.getStatusCode());
 
-    Mockito.verify(bannerRepo).findActiveBanner();
+    Mockito.verify(bannerService).getActiveBanner();
   }
 
   @Test
   public void willReturn200IfActiveBanner() {
     BannerModel banner = BannerModel.builder().title("1").active(true).build();
-    Mockito.when(bannerRepo.findActiveBanner())
+    Mockito.when(bannerService.getActiveBanner())
       .thenReturn(Optional.of(banner));
     ResponseEntity<BannerModel> resp = bannerController.getActiveBanner();
 
     assertEquals(HttpStatus.OK, resp.getStatusCode());
     assertEquals(banner, resp.getBody());
 
-    Mockito.verify(bannerRepo).findActiveBanner();
+    Mockito.verify(bannerService).getActiveBanner();
   }
 }

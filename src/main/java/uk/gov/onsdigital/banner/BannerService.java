@@ -20,6 +20,11 @@ public class BannerService {
   @Autowired
   private BannerRepository bannerRepo;
 
+  public Optional<BannerModel> getActiveBanner() {
+    LOGGER.info("retrieving currently active banner");
+    return bannerRepo.findActiveBanner();
+  }
+
   public BannerModel setActiveBanner(String bannerId) {
     BannerModel foundBanner = 
       bannerRepo.findById(Long.valueOf(bannerId))
