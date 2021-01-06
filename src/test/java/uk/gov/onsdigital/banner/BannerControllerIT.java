@@ -75,14 +75,13 @@ public class BannerControllerIT {
       .content("Banner Content")
       .build();
 
-    Mockito.when(bannerRepo.save(ArgumentMatchers.any()))
+    Mockito.when(bannerService.createBanner(ArgumentMatchers.any()))
       .thenReturn(postedBanner);
     ResponseEntity<BannerModel> resp = this.restTemplate.postForEntity("http://localhost:" + port + "/banner", 
       postedBanner, BannerModel.class);
     
     assertEquals(HttpStatus.CREATED, resp.getStatusCode());
     assertEquals(postedBanner, resp.getBody());
-    Mockito.verify(bannerRepo).save(postedBanner);
   }
 
   @Test

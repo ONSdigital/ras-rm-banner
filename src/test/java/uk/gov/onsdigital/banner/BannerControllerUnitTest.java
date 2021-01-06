@@ -26,6 +26,9 @@ public class BannerControllerUnitTest {
   @Mock
   private BannerRepository bannerRepo;
 
+  @Mock
+  private BannerService bannerService;
+
   @Test
   public void willReturn200() {
     ResponseEntity<List<BannerModel>> resp = bannerController.getBanners();
@@ -83,13 +86,10 @@ public class BannerControllerUnitTest {
   }
 
   @Test
-  public void willWillDefaultToFalseOnBannerCreate() {
-    BannerModel spyModel = Mockito.spy(BannerModel.class);
-    assertNull(spyModel.getActive());
-    bannerController.createBanner(spyModel);
+  public void willCreateBanner() {
+    ResponseEntity<BannerModel> resp = bannerController.createBanner(new BannerModel());
 
-    assertFalse(spyModel.getActive());
-    Mockito.verify(bannerRepo).save(spyModel);
+    assertEquals(HttpStatus.CREATED, resp.getStatusCode());
   }
 
   @Test

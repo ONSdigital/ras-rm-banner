@@ -55,4 +55,10 @@ public class BannerService {
       LOGGER.info("No currently active banner has been found");
     }
   }
+
+  public BannerModel createBanner(BannerModel banner) {
+    LOGGER.info("saving banner", kv("banner", banner));
+    banner.setActive(false);
+    return bannerRepo.save(banner);
+  }
 }

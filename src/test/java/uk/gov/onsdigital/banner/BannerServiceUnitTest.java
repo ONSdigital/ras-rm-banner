@@ -1,6 +1,7 @@
 package uk.gov.onsdigital.banner;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
@@ -67,4 +68,15 @@ public class BannerServiceUnitTest {
     assertFalse(currentActiveBanner.getActive());
     Mockito.verify(bannerRepo, times(2)).save(any(BannerModel.class));
   }
+
+  @Test
+  public void willWillDefaultToFalseOnBannerCreate() {
+    BannerModel spyModel = Mockito.spy(BannerModel.class);
+    assertNull(spyModel.getActive());
+    bannerService.createBanner(spyModel);
+
+    assertFalse(spyModel.getActive());
+    Mockito.verify(bannerRepo).save(spyModel);
+  }
+  
 }

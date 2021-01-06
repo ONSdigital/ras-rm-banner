@@ -88,9 +88,7 @@ public class BannerController {
   @PostMapping("")
   public ResponseEntity<BannerModel> createBanner(
       @RequestBody BannerModel banner) {
-    LOGGER.info("saving banner", kv("banner", banner));
-    banner.setActive(false);
-    BannerModel savedBanner = bannerRepo.save(banner);
+    BannerModel savedBanner = bannerService.createBanner(banner);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(savedBanner);
   }
