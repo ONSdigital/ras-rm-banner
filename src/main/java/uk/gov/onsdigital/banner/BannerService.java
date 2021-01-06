@@ -61,4 +61,30 @@ public class BannerService {
     banner.setActive(false);
     return bannerRepo.save(banner);
   }
+
+  public BannerModel updateBanner(BannerModel banner) {
+    LOGGER.info("updating banner", kv("banner", banner));
+    if (banner == null) {
+      LOGGER.warn("Supplied banner cannot be null");
+      throw new IllegalArgumentException("null banner supplied for updating");
+    }
+
+    BannerModel bannerToSave = bannerRepo.findById(banner.getId())
+      .map(b -> {
+        LOGGER.info("Updating banner", kv("oldBanner", b), 
+          kv("newTitle", banner.getTitle()), 
+          kv("newContent", banner.getContent()));
+        b.setContent(banner.getContent());
+        b.setTitle(banner.getTitle());
+        return b;
+      })
+      .orElse(banner);
+    if (bannerToSave == banner) {
+      LOGGER.info("No changes detected, banner will not be updated", 
+        kv("banner", banner));
+      return banner;
+    }
+    LOGGER.info("Saving updated banner to database", kv("banner", banner));
+    return bannerRepo.save(bannerToSave);
+  }
 }

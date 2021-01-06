@@ -111,28 +111,12 @@ public class BannerController {
   @PutMapping("")
   public ResponseEntity<BannerModel> updateBanner(
       @RequestBody BannerModel banner) {
-    LOGGER.info("updating banner", kv("banner", banner));
-    if (banner == null) {
-      LOGGER.warn("Supplied banner cannot be null");
+    try {
+      BannerModel savedBanner = bannerService.updateBanner(banner);
+      return ResponseEntity.ok(savedBanner);
+    } catch(IllegalArgumentException ex) {
+      LOGGER.error("Invalid banner supplied", ex);
       return ResponseEntity.badRequest().build();
     }
-
-    BannerModel bannerToSave = bannerRepo.findById(banner.getId())
-      .map(b -> {
-        LOGGER.info("Updating banner", kv("oldBanner", b), 
-          kv("newTitle", banner.getTitle()), 
-          kv("newContent", banner.getContent()));
-        b.setContent(banner.getContent());
-        b.setTitle(banner.getTitle());
-        return b;
-      })
-      .orElse(banner);
-    if (bannerToSave == banner) {
-      LOGGER.info("No changes detected, banner will not be updated", 
-        kv("banner", banner));
-      return ResponseEntity.noContent().build();
-    }
-    BannerModel savedBanner = bannerRepo.save(bannerToSave);
-    return ResponseEntity.ok(savedBanner);
   }
 }

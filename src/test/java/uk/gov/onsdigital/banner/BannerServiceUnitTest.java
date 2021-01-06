@@ -1,7 +1,9 @@
 package uk.gov.onsdigital.banner;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
@@ -79,4 +81,33 @@ public class BannerServiceUnitTest {
     Mockito.verify(bannerRepo).save(spyModel);
   }
   
+  @Test
+  public void willUpdateBanner() {
+    BannerModel newBanner = BannerModel.builder().title("1").id(1L).build();
+    BannerModel preExisting = BannerModel.builder().title("title").active(false).id(1L).build();
+    Mockito.when(bannerRepo.findById(1L))
+      .thenReturn(Optional.of(preExisting));
+
+    bannerService.updateBanner(newBanner);
+
+    Mockito.verify(bannerRepo, never()).save(newBanner);
+    Mockito.verify(bannerRepo).save(preExisting);
+    assertFalse(preExisting.getActive());
+    assertEquals("1", preExisting.getTitle());
+  }
+
+  @Test
+  public void willReturnBannerIfNoChangesToUpdate() {
+    BannerModel expected = BannerModel.builder().title("1").id(1L).build();
+    Mockito.when(bannerRepo.findById(1L))
+      .thenReturn(Optional.of(expected));
+    BannerModel actual = bannerService.updateBanner(expected);
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  public void willThrowExcetptionIfNullBannerIdSuppliedForUpdate() {
+    assertThrows(IllegalArgumentException.class, () ->  bannerService.updateBanner(null));
+  }
 }
