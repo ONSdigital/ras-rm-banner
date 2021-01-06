@@ -97,10 +97,7 @@ public class BannerController {
   public ResponseEntity<BannerModel> removeBanner(
       @PathVariable("id") String id) {
     try {
-      Long longId = Long.valueOf(id);
-      LOGGER.info("Removing banner", 
-        kv("id", id));
-      bannerRepo.deleteById(longId);
+      bannerService.removeBanner(id);
       return ResponseEntity.noContent().build();
     } catch(NumberFormatException e) {
       LOGGER.info("supplied path variable is not a number");

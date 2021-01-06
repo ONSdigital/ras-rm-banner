@@ -87,4 +87,12 @@ public class BannerService {
     LOGGER.info("Saving updated banner to database", kv("banner", banner));
     return bannerRepo.save(bannerToSave);
   }
+
+  public void removeBanner(String bannerId) {
+    Long longId = Long.valueOf(bannerId);
+    LOGGER.info("Removing banner", 
+      kv("id", bannerId));
+    bannerRepo.deleteById(longId);
+    LOGGER.debug("banner removed", kv("id", bannerId));
+  }
 }

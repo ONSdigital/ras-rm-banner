@@ -88,7 +88,7 @@ public class BannerControllerIT {
   public void willRemoveBanner() {
     this.restTemplate.delete(URI.create("http://localhost:" + port + "/banner/1")); 
     
-    Mockito.verify(bannerRepo).deleteById(1L);
+    Mockito.verify(bannerService).removeBanner("1");
   }
 
   @Test

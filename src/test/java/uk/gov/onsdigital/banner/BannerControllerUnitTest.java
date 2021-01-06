@@ -101,6 +101,9 @@ public class BannerControllerUnitTest {
 
   @Test
   public void willReturnBadRequestIfPathVariableIsNotNumberOnDelete() {
+    Mockito.doThrow(new NumberFormatException())
+      .when(bannerService)
+      .removeBanner("abc");
     ResponseEntity<BannerModel> resp = bannerController.removeBanner("abc");
 
     assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
