@@ -2,8 +2,11 @@ package uk.gov.onsdigital.banner;
 
 import static net.logstash.logback.argument.StructuredArguments.kv;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.collections4.IteratorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +96,27 @@ public class BannerService {
     LOGGER.info("Removing banner", 
       kv("id", bannerId));
     bannerRepo.deleteById(longId);
-    LOGGER.debug("banner removed", kv("id", bannerId));
+    LOGGER.info("banner removed", 
+      kv("id", bannerId));
+  }
+
+  public List<BannerModel> getAllBanners() {
+    LOGGER.info("Retrieving all banners");
+    Iterator<BannerModel> bannerIter = bannerRepo.findAll().iterator();
+    return IteratorUtils.toList(bannerIter);
+  }
+
+  public BannerModel getBanner(String id) {
+    LOGGER.info("Retrieving banner" + id,
+        kv("severity", "DEBUG"),
+        kv("id", id));
+      Long longId = Long.valueOf(id);
+      Optional<BannerModel> banner = bannerRepo.findById(longId);
+      if (banner.isPresent()) {
+        LOGGER.info("Banner retrieved", 
+            kv("banner", banner),
+            kv("severity", "INFO"));
+      }
+      return banner.orElseThrow();
   }
 }

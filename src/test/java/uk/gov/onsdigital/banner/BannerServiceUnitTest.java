@@ -9,6 +9,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -109,5 +111,38 @@ public class BannerServiceUnitTest {
   @Test
   public void willThrowExcetptionIfNullBannerIdSuppliedForUpdate() {
     assertThrows(IllegalArgumentException.class, () ->  bannerService.updateBanner(null));
+  }
+
+  @Test
+  public void willReturnBannersIfData() {
+    BannerModel expected1 = BannerModel.builder().title("1").build();
+    BannerModel expected2 = BannerModel.builder().title("2").build();
+
+    Mockito.when(bannerRepo.findAll())
+      .thenReturn(List.of(expected1, expected2));
+    List<BannerModel> banners = bannerService.getAllBanners();
+    
+    assertEquals(2, banners.size());
+    assertEquals(expected1, banners.get(0));
+    assertEquals(expected2, banners.get(1));
+  }
+
+  @Test
+  public void willReturnSingleBanner() {
+    BannerModel expected1 = BannerModel.builder().title("1").build();
+    Mockito.when(bannerRepo.findById(Long.valueOf("1")))
+      .thenReturn(Optional.of(expected1));
+
+    BannerModel banner = bannerService.getBanner("1");
+
+    assertEquals(expected1, banner);
+  }
+
+  @Test
+  public void willThrowIfNoBannerPresent() {
+    Mockito.when(bannerRepo.findById(Long.valueOf("1")))
+      .thenReturn(Optional.empty());
+
+    assertThrows(NoSuchElementException.class, () -> bannerService.getBanner("1"));
   }
 }

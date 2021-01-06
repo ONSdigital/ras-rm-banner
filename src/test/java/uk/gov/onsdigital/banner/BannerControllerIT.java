@@ -48,7 +48,7 @@ public class BannerControllerIT {
   
   @Test
   public void willReturnBannersObject() {
-    Mockito.when(bannerRepo.findAll())
+    Mockito.when(bannerService.getAllBanners())
       .thenReturn(List.of(BannerModel.builder().build()));
     List<BannerModel> banners = this.restTemplate.getForObject("http://localhost:" + port + "/banner",
         List.class);
@@ -59,8 +59,8 @@ public class BannerControllerIT {
   @Test
   public void willReturnASingleBannerObject() {
     BannerModel expectedBanner = BannerModel.builder().build();
-    Mockito.when(bannerRepo.findById(Long.valueOf("1")))
-      .thenReturn(Optional.of(expectedBanner));
+    Mockito.when(bannerService.getBanner("1"))
+      .thenReturn(expectedBanner);
     BannerModel actualBanner = this.restTemplate.getForObject("http://localhost:" + port + "/banner/1",
       BannerModel.class);
     

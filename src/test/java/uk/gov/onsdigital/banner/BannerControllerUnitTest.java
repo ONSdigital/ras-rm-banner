@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.never;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -45,34 +46,22 @@ public class BannerControllerUnitTest {
 
   @Test
   public void willReturnBannersIfData() {
-    BannerModel expected1 = BannerModel.builder().title("1").build();
-    BannerModel expected2 = BannerModel.builder().title("2").build();
-
-    Mockito.when(bannerRepo.findAll())
-      .thenReturn(List.of(expected1, expected2));
     ResponseEntity<List<BannerModel>> resp = bannerController.getBanners();
     
-    List<BannerModel> actualBanners = resp.getBody();
-
-    assertEquals(2, actualBanners.size());
-    assertEquals(expected1, actualBanners.get(0));
-    assertEquals(expected2, actualBanners.get(1));
+    assertEquals(HttpStatus.OK, resp.getStatusCode());
   }
 
   @Test
   public void willReturnSingleBanner() {
-    BannerModel expected1 = BannerModel.builder().title("1").build();
-    Mockito.when(bannerRepo.findById(Long.valueOf("1")))
-      .thenReturn(Optional.of(expected1));
-
     ResponseEntity<BannerModel> resp = bannerController.getBanner("1");
 
     assertEquals(HttpStatus.OK, resp.getStatusCode());
-    assertEquals(expected1, resp.getBody());
   }
 
   @Test
   public void willReturn404IfNoBannerFound() {
+    Mockito.when(bannerService.getBanner("1"))
+      .thenThrow(new NoSuchElementException());
     ResponseEntity<BannerModel> resp = bannerController.getBanner("1");
 
     assertEquals(HttpStatus.NOT_FOUND, resp.getStatusCode());
@@ -80,6 +69,8 @@ public class BannerControllerUnitTest {
 
   @Test
   public void willReturnBadRequestIfPathVariableIsNotNumber() {
+    Mockito.when(bannerService.getBanner("abc"))
+      .thenThrow(new NumberFormatException());
     ResponseEntity<BannerModel> resp = bannerController.getBanner("abc");
 
     assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());

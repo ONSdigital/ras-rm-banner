@@ -4,6 +4,7 @@ import static net.logstash.logback.argument.StructuredArguments.kv;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.apache.commons.collections4.IteratorUtils;
 import org.slf4j.Logger;
@@ -35,9 +36,9 @@ public class BannerController {
   
   @GetMapping("")
   public ResponseEntity<List<BannerModel>> getBanners() {
-    Iterator<BannerModel> bannerIter = bannerRepo.findAll().iterator();
+    List<BannerModel> banners = bannerService.getAllBanners();
     return ResponseEntity.ok()
-      .body(IteratorUtils.toList(bannerIter));
+      .body(banners);
   }
 
   @GetMapping("/active")
@@ -51,21 +52,14 @@ public class BannerController {
   public ResponseEntity<BannerModel> getBanner(
       @PathVariable("id") String id) {
     try {
-      LOGGER.info("Retrieving banner" + id,
-        kv("severity", "DEBUG"),
-        kv("id", id));
-      Long longId = Long.valueOf(id);
-      return bannerRepo.findById(longId)
-        .map(b -> {
-          LOGGER.info("Banner retrieved", 
-            kv("banner", b),
-            kv("severity", "INFO"));
-          return ResponseEntity.ok().body(b);
-        })
-        .orElseGet(() -> ResponseEntity.notFound().build());
+      BannerModel banner = bannerService.getBanner(id);
+      return ResponseEntity.ok().body(banner);
     } catch(NumberFormatException e) {
       LOGGER.info("supplied path variable is not a number");
       return ResponseEntity.badRequest().build();
+    } catch(NoSuchElementException e) {
+      LOGGER.info("Banner not found", kv("banner_id", id));
+      return ResponseEntity.notFound().build();
     }
   }
 
