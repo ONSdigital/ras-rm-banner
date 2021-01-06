@@ -36,6 +36,13 @@ public class BannerController {
       .body(IteratorUtils.toList(bannerIter));
   }
 
+  @GetMapping("/live")
+  public ResponseEntity<BannerModel> getActiveBanner() {
+    return bannerRepo.findActiveBanner()
+      .map(ResponseEntity.ok()::body)
+      .orElseGet(() -> ResponseEntity.noContent().build());
+  }
+
   @GetMapping("/{id}")
   public ResponseEntity<BannerModel> getBanner(
       @PathVariable("id") String id) {
