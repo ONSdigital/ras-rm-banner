@@ -115,13 +115,13 @@ public class BannerService {
     LOGGER.info("Retrieving banner" + id,
         kv("severity", "DEBUG"),
         kv("id", id));
-      Long longId = Long.valueOf(id);
-      Optional<BannerModel> banner = bannerRepo.findById(longId);
-      if (banner.isPresent()) {
-        LOGGER.info("Banner retrieved", 
-            kv("banner", banner),
-            kv("severity", "INFO"));
-      }
-      return banner.orElseThrow();
+    Long longId = Long.valueOf(id);
+    Optional<BannerModel> banner = bannerRepo.findById(longId);
+    if (banner.isPresent()) {
+      LOGGER.info("Banner retrieved", 
+          kv("banner", banner),
+          kv("severity", "INFO"));
+    }
+    return banner.orElseThrow();
   }
 }
