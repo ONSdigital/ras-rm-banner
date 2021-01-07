@@ -65,8 +65,8 @@ public class BannerService {
   }
 
   public BannerModel createBanner(BannerModel banner) {
-    LOGGER.info("saving banner", kv("banner", banner));
     banner.setActive(false);
+    LOGGER.info("saving banner", kv("banner", banner));
     return bannerRepo.save(banner);
   }
 
