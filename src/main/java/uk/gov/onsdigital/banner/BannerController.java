@@ -50,10 +50,10 @@ public class BannerController {
       BannerModel banner = bannerService.getBanner(id);
       return ResponseEntity.ok().body(banner);
     } catch(NumberFormatException e) {
-      LOGGER.info("supplied path variable is not a number");
+      LOGGER.error("supplied path variable is not a number", kv("banner_id", id));
       return ResponseEntity.badRequest().build();
     } catch(NoSuchElementException e) {
-      LOGGER.info("Banner not found", kv("banner_id", id));
+      LOGGER.error("Banner not found", kv("banner_id", id));
       return ResponseEntity.notFound().build();
     }
   }

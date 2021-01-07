@@ -7,8 +7,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
-import javax.naming.OperationNotSupportedException;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
