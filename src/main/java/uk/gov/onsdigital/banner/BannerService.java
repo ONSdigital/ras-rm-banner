@@ -112,7 +112,7 @@ public class BannerService {
   }
 
   public BannerModel getBanner(String id) {
-    LOGGER.info("Retrieving banner" + id,
+    LOGGER.info("Retrieving banner",
         kv("severity", "DEBUG"),
         kv("id", id));
     Long longId = Long.valueOf(id);
