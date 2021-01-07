@@ -16,14 +16,10 @@ This service will also be harnessed for upcoming work on frontstage.
 * `GET /banner` - Returns a JSON response of all the current alert banners stored in Datastore
 * `GET /banner/<banner-Id>` - returns a JSON response of the specified alert banner
 * `POST /banner` - Stores a new banner in the Datastore or updates current with same title
+* `PUT /banner/<banner-Id>` - Updates the banner attributes accordingly.
 * `DELETE /banner/<banner-Id>` - Deletes a banner in the Datastore with the corresponding key (Title)
 * `PATCH /banner/<banner-Id>/active`- Makes a banner active (will deactive a banner that is currently active)
 * `GET /banner/active`- Returns the currently active banner
-
-#### Posting of banners
-* `PUT /banner/<banner-Id>` - Updates the banner_active attributes accordingly.
-* `POST /banner/<banner-Id>`- Posts an active banner change to frontstage
-
 
 ## Data
 
