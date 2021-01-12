@@ -2,6 +2,7 @@ package uk.gov.onsdigital.banner;
 
 import org.springframework.cloud.gcp.data.datastore.core.mapping.Entity;
 import org.springframework.cloud.gcp.data.datastore.core.mapping.Field;
+import org.springframework.cloud.gcp.data.datastore.core.mapping.Unindexed;
 import org.springframework.data.annotation.Id;
 
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class BannerModel {
   @Field(name = "id")
   private Long id;
   private Boolean active;
+  @Unindexed
   private String content;
   private String title;
 }

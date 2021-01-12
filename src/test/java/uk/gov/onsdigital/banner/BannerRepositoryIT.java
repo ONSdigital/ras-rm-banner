@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -97,5 +99,47 @@ public class BannerRepositoryIT {
     bannerRepo.save(model);
 
     assertFalse(bannerRepo.findById(model.getId()).get().getActive());
+  }
+
+  @Test
+  public void willReturnActiveBanner() {
+    bannerRepo.save(BannerModel.builder()
+      .title("A Banner")
+      .active(false)
+      .content("Hello world")
+      .build());
+    
+    BannerModel model = 
+      bannerRepo.save(BannerModel.builder()
+        .title("A Banner")
+        .active(true)
+        .content("Hello world")
+        .build());
+    
+    assertNotNull(model.getId());
+
+    bannerRepo.findById(model.getId());
+
+    Optional<BannerModel> actualModel = bannerRepo.findActiveBanner();
+
+    assertTrue(actualModel.isPresent());
+    assertEquals(model.getId(), actualModel.get().getId());
+  }
+
+  @Test
+  public void willReturnEmptyOptionalIfNoActiveBanner() {
+    BannerModel model = bannerRepo.save(BannerModel.builder()
+      .title("A Banner")
+      .active(false)
+      .content("Hello world")
+      .build());
+    
+    assertNotNull(model.getId());
+
+    bannerRepo.findById(model.getId());
+
+    Optional<BannerModel> actualModel = bannerRepo.findActiveBanner();
+
+    assertFalse(actualModel.isPresent());
   }
 }

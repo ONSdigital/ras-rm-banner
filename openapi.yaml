@@ -1,0 +1,184 @@
+openapi: 3.0.2
+info:
+  title: RAS-RM banner Service
+  description: A service for managing banners for ras-rm
+  version: "1.0"
+
+servers:
+  - url: http://localhost:8000/
+    description: The path used by the banner-api when port forwarded by kubectl (8000:8080)
+
+tags:
+  - name: banner
+    description: Endpoints for interacting with banners.
+
+paths:
+  /banner:
+    get:
+      summary: List of available banners
+      description: List of all banners.
+      tags:
+        - banner
+      responses:
+        '200':
+          description: banners were retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/banner'
+    post:
+      summary: Create a new banner
+      description: Creeate a new inactive banner
+      tags:
+        - banner
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/bannerCreate'
+      responses:
+        '201':
+          description: banner was created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/banner'
+  /banner/{id}:
+    get:
+      summary: Single banner.
+      description: Retrive a single banner by id
+      tags:
+        - banner
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: long
+            example: 1234567890123456
+      responses:
+        '200':
+          description: banner was retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/banner'
+        '404':
+          description: No banner found
+    delete:
+      summary: Delete banner.
+      description: Delete a banner from the database
+      tags:
+        - banner
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: long
+            example: 1234567890123456
+      responses:
+        '204':
+          description: banner was deleted successfully.
+        '404':
+          description: No banner found
+    put:
+      summary: Update banner.
+      description: Update a banner
+      tags:
+        - banner
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: long
+            example: 1234567890123456
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/bannerCreate'
+      responses:
+        '200':
+          description: banner was retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/banner'
+        '404':
+          description: No banner found
+  /banner/active:
+    get:
+      summary: Get current active banner
+      description: Retrieve the currently active banner
+      tags:
+        - banner
+      responses:
+        '200':
+          description: The banner was successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/banner'
+        '204':
+          description: No active banners
+  /banner/{id}/active:
+    patch:
+      summary: Set a banner to active
+      description: | 
+        Sets a banner to an active state while making any other active banner inactive
+      tags:
+        - banner
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: long
+            example: 1234567890123456
+      responses:
+        '200':
+          description: The banner has been set to active
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/banner'
+components:
+  responses:
+    NotFoundError:
+      description:  Resource has not been found
+  schemas:
+    banner:
+      type: object
+      properties:
+        id:
+          type: string
+          format: long
+          example: 1234567890123456
+        title:
+          type: string
+          example: "Banner title"
+        content:
+          type: string
+          example: "banner content"
+        active:
+          type: boolean
+          example: true
+    bannerCreate:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Banner title"
+        content:
+          type: string
+          example: "banner content"

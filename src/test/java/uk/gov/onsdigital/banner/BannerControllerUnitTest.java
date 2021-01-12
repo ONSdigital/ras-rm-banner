@@ -3,6 +3,7 @@ package uk.gov.onsdigital.banner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ public class BannerControllerUnitTest {
   private BannerController bannerController;
 
   @Mock
-  private BannerRepository bannerRepo;
+  private BannerService bannerService;
 
   @Test
   public void willReturn200() {
@@ -39,34 +40,22 @@ public class BannerControllerUnitTest {
 
   @Test
   public void willReturnBannersIfData() {
-    BannerModel expected1 = BannerModel.builder().title("1").build();
-    BannerModel expected2 = BannerModel.builder().title("2").build();
-
-    Mockito.when(bannerRepo.findAll())
-      .thenReturn(List.of(expected1, expected2));
     ResponseEntity<List<BannerModel>> resp = bannerController.getBanners();
     
-    List<BannerModel> actualBanners = resp.getBody();
-
-    assertEquals(2, actualBanners.size());
-    assertEquals(expected1, actualBanners.get(0));
-    assertEquals(expected2, actualBanners.get(1));
+    assertEquals(HttpStatus.OK, resp.getStatusCode());
   }
 
   @Test
   public void willReturnSingleBanner() {
-    BannerModel expected1 = BannerModel.builder().title("1").build();
-    Mockito.when(bannerRepo.findById(Long.valueOf("1")))
-      .thenReturn(Optional.of(expected1));
-
     ResponseEntity<BannerModel> resp = bannerController.getBanner("1");
 
     assertEquals(HttpStatus.OK, resp.getStatusCode());
-    assertEquals(expected1, resp.getBody());
   }
 
   @Test
   public void willReturn404IfNoBannerFound() {
+    Mockito.when(bannerService.getBanner("1"))
+      .thenThrow(new NoSuchElementException());
     ResponseEntity<BannerModel> resp = bannerController.getBanner("1");
 
     assertEquals(HttpStatus.NOT_FOUND, resp.getStatusCode());
@@ -74,9 +63,18 @@ public class BannerControllerUnitTest {
 
   @Test
   public void willReturnBadRequestIfPathVariableIsNotNumber() {
+    Mockito.when(bannerService.getBanner("abc"))
+      .thenThrow(new NumberFormatException());
     ResponseEntity<BannerModel> resp = bannerController.getBanner("abc");
 
     assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
+  }
+
+  @Test
+  public void willCreateBanner() {
+    ResponseEntity<BannerModel> resp = bannerController.createBanner(new BannerModel());
+
+    assertEquals(HttpStatus.CREATED, resp.getStatusCode());
   }
 
   @Test
@@ -88,6 +86,9 @@ public class BannerControllerUnitTest {
 
   @Test
   public void willReturnBadRequestIfPathVariableIsNotNumberOnDelete() {
+    Mockito.doThrow(new NumberFormatException())
+      .when(bannerService)
+      .removeBanner("abc");
     ResponseEntity<BannerModel> resp = bannerController.removeBanner("abc");
 
     assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
@@ -95,9 +96,45 @@ public class BannerControllerUnitTest {
 
   @Test
   public void willUpdateBanner() {
-    BannerModel expected1 = BannerModel.builder().title("1").id(1L).build();
-    ResponseEntity<BannerModel> resp = bannerController.updateBanner(expected1);
+    BannerModel newBanner = BannerModel.builder().title("1").id(1L).build();
+    Mockito.when(bannerService.updateBanner(newBanner))
+      .thenReturn(newBanner);
+
+    ResponseEntity<BannerModel> resp = bannerController.updateBanner(newBanner);
 
     assertEquals(HttpStatus.OK, resp.getStatusCode());
+  }
+
+  @Test
+  public void willReturn400IfNullBannerSuppliedForUpdate() {
+    Mockito.when(bannerService.updateBanner(null))
+      .thenThrow(new IllegalArgumentException());
+    ResponseEntity<BannerModel> resp = bannerController.updateBanner(null);
+
+    assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
+  }
+
+  @Test
+  public void willReturn204NoActiveBanner() {
+    Mockito.when(bannerService.getActiveBanner())
+      .thenReturn(Optional.empty());
+    ResponseEntity<BannerModel> resp = bannerController.getActiveBanner();
+
+    assertEquals(HttpStatus.NO_CONTENT, resp.getStatusCode());
+
+    Mockito.verify(bannerService).getActiveBanner();
+  }
+
+  @Test
+  public void willReturn200IfActiveBanner() {
+    BannerModel banner = BannerModel.builder().title("1").active(true).build();
+    Mockito.when(bannerService.getActiveBanner())
+      .thenReturn(Optional.of(banner));
+    ResponseEntity<BannerModel> resp = bannerController.getActiveBanner();
+
+    assertEquals(HttpStatus.OK, resp.getStatusCode());
+    assertEquals(banner, resp.getBody());
+
+    Mockito.verify(bannerService).getActiveBanner();
   }
 }

@@ -41,11 +41,11 @@ public class BannerControllerIT {
   private TestRestTemplate restTemplate;
 
   @MockBean
-  private BannerRepository bannerRepo;
+  private BannerService bannerService;
   
   @Test
   public void willReturnBannersObject() {
-    Mockito.when(bannerRepo.findAll())
+    Mockito.when(bannerService.getAllBanners())
       .thenReturn(List.of(BannerModel.builder().build()));
     List<BannerModel> banners = this.restTemplate.getForObject("http://localhost:" + port + "/banner",
         List.class);
@@ -56,8 +56,8 @@ public class BannerControllerIT {
   @Test
   public void willReturnASingleBannerObject() {
     BannerModel expectedBanner = BannerModel.builder().build();
-    Mockito.when(bannerRepo.findById(Long.valueOf("1")))
-      .thenReturn(Optional.of(expectedBanner));
+    Mockito.when(bannerService.getBanner("1"))
+      .thenReturn(expectedBanner);
     BannerModel actualBanner = this.restTemplate.getForObject("http://localhost:" + port + "/banner/1",
       BannerModel.class);
     
@@ -72,20 +72,39 @@ public class BannerControllerIT {
       .content("Banner Content")
       .build();
 
-    Mockito.when(bannerRepo.save(ArgumentMatchers.any()))
+    Mockito.when(bannerService.createBanner(ArgumentMatchers.any()))
       .thenReturn(postedBanner);
     ResponseEntity<BannerModel> resp = this.restTemplate.postForEntity("http://localhost:" + port + "/banner", 
       postedBanner, BannerModel.class);
     
     assertEquals(HttpStatus.CREATED, resp.getStatusCode());
     assertEquals(postedBanner, resp.getBody());
-    Mockito.verify(bannerRepo).save(postedBanner);
   }
 
   @Test
   public void willRemoveBanner() {
     this.restTemplate.delete(URI.create("http://localhost:" + port + "/banner/1")); 
     
-    Mockito.verify(bannerRepo).deleteById(1L);
+    Mockito.verify(bannerService).removeBanner("1");
+  }
+
+  @Test
+  public void willGetActiveBanner() {
+    Mockito.when(bannerService.getActiveBanner())
+      .thenReturn(Optional.of(BannerModel.builder().build()));
+    BannerModel banner = this.restTemplate.getForObject("http://localhost:" + port + "/banner/active",
+        BannerModel.class);
+    
+    assertNotNull(banner);
+  }
+
+  @Test
+  public void willSetAnActiveBanner() {
+    Mockito.when(bannerService.setActiveBanner("1"))
+      .thenReturn(BannerModel.builder().build());
+    BannerModel banner = this.restTemplate.patchForObject("http://localhost:" + port + "/banner/1/active",
+        null, BannerModel.class);
+    
+    assertNotNull(banner);
   }
 }
