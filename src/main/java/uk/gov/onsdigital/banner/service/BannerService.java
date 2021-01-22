@@ -1,4 +1,4 @@
-package uk.gov.onsdigital.banner;
+package uk.gov.onsdigital.banner.service;
 
 import static net.logstash.logback.argument.StructuredArguments.kv;
 
@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uk.gov.onsdigital.banner.model.TemplateModel;
+import uk.gov.onsdigital.banner.repository.TemplateRepository;
 
 @Service
 public class BannerService {
@@ -18,15 +20,15 @@ public class BannerService {
   private static final Logger LOGGER = LoggerFactory.getLogger(BannerService.class);
   
   @Autowired
-  private BannerRepository bannerRepo;
+  private TemplateRepository bannerRepo;
 
-  public Optional<BannerModel> getActiveBanner() {
+  public Optional<TemplateModel> getActiveBanner() {
     LOGGER.info("retrieving currently active banner");
     return bannerRepo.findActiveBanner();
   }
 
-  public BannerModel setActiveBanner(String bannerId) {
-    BannerModel foundBanner = 
+  public TemplateModel setActiveBanner(String bannerId) {
+    TemplateModel foundBanner =
       bannerRepo.findById(Long.valueOf(bannerId))
         .orElseThrow(() -> new IllegalArgumentException("Banner has not been found in datastore"));
     
@@ -50,7 +52,7 @@ public class BannerService {
    */
   private void setCurrentActiveBannerToInactive() {
     LOGGER.info("Searching for a currently active banner");
-    Optional<BannerModel> banner = bannerRepo.findActiveBanner()
+    Optional<TemplateModel> banner = bannerRepo.findActiveBanner()
       .map(foundBanner -> {
         LOGGER.info("An active banner has been found", kv("banner", foundBanner));
         foundBanner.setActive(false);
@@ -64,20 +66,20 @@ public class BannerService {
     }
   }
 
-  public BannerModel createBanner(BannerModel banner) {
+  public TemplateModel createBanner(TemplateModel banner) {
     banner.setActive(false);
     LOGGER.info("saving banner", kv("banner", banner));
     return bannerRepo.save(banner);
   }
 
-  public BannerModel updateBanner(BannerModel banner) {
+  public TemplateModel updateBanner(TemplateModel banner) {
     LOGGER.info("updating banner", kv("banner", banner));
     if (banner == null) {
       LOGGER.warn("Supplied banner cannot be null");
       throw new IllegalArgumentException("null banner supplied for updating");
     }
 
-    BannerModel bannerToSave = bannerRepo.findById(banner.getId())
+    TemplateModel bannerToSave = bannerRepo.findById(banner.getId())
       .map(b -> {
         LOGGER.info("Updating banner", kv("oldBanner", b), 
           kv("newTitle", banner.getTitle()), 
@@ -105,18 +107,18 @@ public class BannerService {
       kv("id", bannerId));
   }
 
-  public List<BannerModel> getAllBanners() {
+  public List<TemplateModel> getAllBanners() {
     LOGGER.info("Retrieving all banners");
-    Iterator<BannerModel> bannerIter = bannerRepo.findAll().iterator();
+    Iterator<TemplateModel> bannerIter = bannerRepo.findAll().iterator();
     return IteratorUtils.toList(bannerIter);
   }
 
-  public BannerModel getBanner(String id) {
+  public TemplateModel getBanner(String id) {
     LOGGER.info("Retrieving banner",
         kv("severity", "DEBUG"),
         kv("id", id));
     Long longId = Long.valueOf(id);
-    Optional<BannerModel> banner = bannerRepo.findById(longId);
+    Optional<TemplateModel> banner = bannerRepo.findById(longId);
     if (banner.isPresent()) {
       LOGGER.info("Banner retrieved", 
           kv("banner", banner),

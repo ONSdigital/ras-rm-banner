@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import uk.gov.onsdigital.banner.service.BannerService;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class BannerServiceIT {

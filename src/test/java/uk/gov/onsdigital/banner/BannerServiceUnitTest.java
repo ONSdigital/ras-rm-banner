@@ -19,6 +19,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import uk.gov.onsdigital.banner.model.TemplateModel;
+import uk.gov.onsdigital.banner.repository.TemplateRepository;
+import uk.gov.onsdigital.banner.service.BannerService;
 
 @ExtendWith(MockitoExtension.class)
 public class BannerServiceUnitTest {
@@ -27,11 +30,11 @@ public class BannerServiceUnitTest {
   private BannerService bannerService;
 
   @Mock
-  private BannerRepository bannerRepo;
+  private TemplateRepository bannerRepo;
 
   @Test
   public void willSetABannerToActive() {
-    BannerModel banner = BannerModel.builder().id(1L).active(false).build();
+    TemplateModel banner = TemplateModel.builder().id(1L).active(false).build();
     Mockito.spy(banner);
 
     Mockito.when(bannerRepo.findById(1L))
@@ -45,7 +48,7 @@ public class BannerServiceUnitTest {
 
   @Test
   public void willReturnBannerWithoutSavingIfAlreadyActive() {
-    BannerModel banner = BannerModel.builder().id(1L).active(true).build();
+    TemplateModel banner = TemplateModel.builder().id(1L).active(true).build();
 
     Mockito.when(bannerRepo.findById(1L))
       .thenReturn(Optional.of(banner));
@@ -57,8 +60,8 @@ public class BannerServiceUnitTest {
 
   @Test
   public void willMakeCurrentActiveBannerInactive() {
-    BannerModel banner = BannerModel.builder().id(1L).active(false).build();
-    BannerModel currentActiveBanner = BannerModel.builder().id(2L).active(true).build();
+    TemplateModel banner = TemplateModel.builder().id(1L).active(false).build();
+    TemplateModel currentActiveBanner = TemplateModel.builder().id(2L).active(true).build();
 
     Mockito.spy(currentActiveBanner);
 
@@ -70,12 +73,12 @@ public class BannerServiceUnitTest {
     bannerService.setActiveBanner("1");
 
     assertFalse(currentActiveBanner.getActive());
-    Mockito.verify(bannerRepo, times(2)).save(any(BannerModel.class));
+    Mockito.verify(bannerRepo, times(2)).save(any(TemplateModel.class));
   }
 
   @Test
   public void willWillDefaultToFalseOnBannerCreate() {
-    BannerModel spyModel = Mockito.spy(BannerModel.class);
+    TemplateModel spyModel = Mockito.spy(TemplateModel.class);
     assertNull(spyModel.getActive());
     bannerService.createBanner(spyModel);
 
@@ -85,8 +88,8 @@ public class BannerServiceUnitTest {
   
   @Test
   public void willUpdateBanner() {
-    BannerModel newBanner = BannerModel.builder().title("1").id(1L).build();
-    BannerModel preExisting = BannerModel.builder().title("title").active(false).id(1L).build();
+    TemplateModel newBanner = TemplateModel.builder().title("1").id(1L).build();
+    TemplateModel preExisting = TemplateModel.builder().title("title").active(false).id(1L).build();
     Mockito.when(bannerRepo.findById(1L))
       .thenReturn(Optional.of(preExisting));
 
@@ -100,10 +103,10 @@ public class BannerServiceUnitTest {
 
   @Test
   public void willReturnBannerIfNoChangesToUpdate() {
-    BannerModel expected = BannerModel.builder().title("1").id(1L).build();
+    TemplateModel expected = TemplateModel.builder().title("1").id(1L).build();
     Mockito.when(bannerRepo.findById(1L))
       .thenReturn(Optional.of(expected));
-    BannerModel actual = bannerService.updateBanner(expected);
+    TemplateModel actual = bannerService.updateBanner(expected);
 
     assertEquals(expected, actual);
   }
@@ -115,12 +118,12 @@ public class BannerServiceUnitTest {
 
   @Test
   public void willReturnBannersIfData() {
-    BannerModel expected1 = BannerModel.builder().title("1").build();
-    BannerModel expected2 = BannerModel.builder().title("2").build();
+    TemplateModel expected1 = TemplateModel.builder().title("1").build();
+    TemplateModel expected2 = TemplateModel.builder().title("2").build();
 
     Mockito.when(bannerRepo.findAll())
       .thenReturn(List.of(expected1, expected2));
-    List<BannerModel> banners = bannerService.getAllBanners();
+    List<TemplateModel> banners = bannerService.getAllBanners();
     
     assertEquals(2, banners.size());
     assertEquals(expected1, banners.get(0));
@@ -129,11 +132,11 @@ public class BannerServiceUnitTest {
 
   @Test
   public void willReturnSingleBanner() {
-    BannerModel expected1 = BannerModel.builder().title("1").build();
+    TemplateModel expected1 = TemplateModel.builder().title("1").build();
     Mockito.when(bannerRepo.findById(Long.valueOf("1")))
       .thenReturn(Optional.of(expected1));
 
-    BannerModel banner = bannerService.getBanner("1");
+    TemplateModel banner = bannerService.getBanner("1");
 
     assertEquals(expected1, banner);
   }

@@ -13,12 +13,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import uk.gov.onsdigital.banner.model.TemplateModel;
+import uk.gov.onsdigital.banner.repository.TemplateRepository;
 
 @SpringBootTest
-public class BannerRepositoryIT {
+public class TemplateRepositoryIT {
   
   @Autowired
-  private BannerRepository bannerRepo;
+  private TemplateRepository bannerRepo;
 
   @BeforeAll
   public static void setUpClass() {
@@ -37,8 +39,8 @@ public class BannerRepositoryIT {
 
   @Test
   public void willSaveToDatastore() {
-    BannerModel model = 
-      bannerRepo.save(BannerModel.builder()
+    TemplateModel model =
+      bannerRepo.save(TemplateModel.builder()
         .title("A Banner")
         .active(true)
         .content("Hello world")
@@ -52,8 +54,8 @@ public class BannerRepositoryIT {
 
   @Test
   public void willGetFromDatastore() {
-    BannerModel model = 
-      bannerRepo.save(BannerModel.builder()
+    TemplateModel model =
+      bannerRepo.save(TemplateModel.builder()
         .title("A Banner")
         .active(true)
         .content("Hello world")
@@ -63,15 +65,15 @@ public class BannerRepositoryIT {
     assertTrue(model.getActive());
     assertEquals("Hello world", model.getContent());
 
-    BannerModel retrievedModel = bannerRepo.findById(model.getId()).get();
+    TemplateModel retrievedModel = bannerRepo.findById(model.getId()).get();
 
     assertEquals(model, retrievedModel);
   }
 
   @Test
   public void willDeleteFromDatastore() {
-    BannerModel model = 
-      bannerRepo.save(BannerModel.builder()
+    TemplateModel model =
+      bannerRepo.save(TemplateModel.builder()
         .title("A Banner")
         .active(true)
         .content("Hello world")
@@ -86,8 +88,8 @@ public class BannerRepositoryIT {
 
   @Test
   public void willUpdateInDatastore() {
-    BannerModel model = 
-      bannerRepo.save(BannerModel.builder()
+    TemplateModel model =
+      bannerRepo.save(TemplateModel.builder()
         .title("A Banner")
         .active(true)
         .content("Hello world")
@@ -103,14 +105,14 @@ public class BannerRepositoryIT {
 
   @Test
   public void willReturnActiveBanner() {
-    bannerRepo.save(BannerModel.builder()
+    bannerRepo.save(TemplateModel.builder()
       .title("A Banner")
       .active(false)
       .content("Hello world")
       .build());
     
-    BannerModel model = 
-      bannerRepo.save(BannerModel.builder()
+    TemplateModel model =
+      bannerRepo.save(TemplateModel.builder()
         .title("A Banner")
         .active(true)
         .content("Hello world")
@@ -120,7 +122,7 @@ public class BannerRepositoryIT {
 
     bannerRepo.findById(model.getId());
 
-    Optional<BannerModel> actualModel = bannerRepo.findActiveBanner();
+    Optional<TemplateModel> actualModel = bannerRepo.findActiveBanner();
 
     assertTrue(actualModel.isPresent());
     assertEquals(model.getId(), actualModel.get().getId());
@@ -128,7 +130,7 @@ public class BannerRepositoryIT {
 
   @Test
   public void willReturnEmptyOptionalIfNoActiveBanner() {
-    BannerModel model = bannerRepo.save(BannerModel.builder()
+    TemplateModel model = bannerRepo.save(TemplateModel.builder()
       .title("A Banner")
       .active(false)
       .content("Hello world")
@@ -138,7 +140,7 @@ public class BannerRepositoryIT {
 
     bannerRepo.findById(model.getId());
 
-    Optional<BannerModel> actualModel = bannerRepo.findActiveBanner();
+    Optional<TemplateModel> actualModel = bannerRepo.findActiveBanner();
 
     assertFalse(actualModel.isPresent());
   }

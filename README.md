@@ -1,11 +1,11 @@
 # Banner Management Service
 Creating *banner-management-service* api will allow banners to be stored, updated and deleted without response-ops dealing with a DB connection.  This service is a lightweight API written in Java using Spring boot 2 with the gcp datastore starter project where alert banners will be housed. This design will allow for a scheduler to be implemented, which is required for setting and removing banner at specific times.
-This service will also be harnessed for upcoming work on frontstage.
+This service will also be harnessed for upcoming work on ras-frontstage.
 
 ## Goals
 1. Ability to create, delete, update (manage) alert banners from response OPS
 1. Storage of banners within GCP Datastore
-1. Good design for future work on frontstage
+1. Good design for future work on ras-frontstage
 1. Ability to integrate a scheduler
 
 ![](./images/api-design.png?raw=true)
@@ -18,8 +18,10 @@ This service will also be harnessed for upcoming work on frontstage.
 * `POST /banner` - Stores a new banner in the Datastore or updates current with same title
 * `PUT /banner/<banner-Id>` - Updates the banner attributes accordingly.
 * `DELETE /banner/<banner-Id>` - Deletes a banner in the Datastore with the corresponding key (Title)
-* `PATCH /banner/<banner-Id>/active`- Makes a banner active (will deactive a banner that is currently active)
-* `GET /banner/active`- Returns the currently active banner
+  
+* `GET /banner` - Returns the currently active banner
+* `POST /banner` - Stores the text for the active banner
+* `DELETE /banner` - Removes the text for the active banner, functionally deactivating it
 
 ## Data
 

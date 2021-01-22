@@ -1,4 +1,4 @@
-package uk.gov.onsdigital.banner;
+package uk.gov.onsdigital.banner.model;
 
 import org.springframework.cloud.gcp.data.datastore.core.mapping.Entity;
 import org.springframework.cloud.gcp.data.datastore.core.mapping.Field;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity(name = "Banner")
-public class BannerModel {
+public class TemplateModel {
   
   @Id
   @Field(name = "id")

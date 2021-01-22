@@ -1,4 +1,4 @@
-package uk.gov.onsdigital.banner;
+package uk.gov.onsdigital.banner.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -20,6 +20,9 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import uk.gov.onsdigital.banner.DatastoreEmulator;
+import uk.gov.onsdigital.banner.model.TemplateModel;
+import uk.gov.onsdigital.banner.service.BannerService;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class BannerControllerIT {
@@ -46,8 +49,8 @@ public class BannerControllerIT {
   @Test
   public void willReturnBannersObject() {
     Mockito.when(bannerService.getAllBanners())
-      .thenReturn(List.of(BannerModel.builder().build()));
-    List<BannerModel> banners = this.restTemplate.getForObject("http://localhost:" + port + "/banner",
+      .thenReturn(List.of(TemplateModel.builder().build()));
+    List<TemplateModel> banners = this.restTemplate.getForObject("http://localhost:" + port + "/banner",
         List.class);
     
     assertEquals(1, banners.size());
@@ -55,18 +58,18 @@ public class BannerControllerIT {
 
   @Test
   public void willReturnASingleBannerObject() {
-    BannerModel expectedBanner = BannerModel.builder().build();
+    TemplateModel expectedBanner = TemplateModel.builder().build();
     Mockito.when(bannerService.getBanner("1"))
       .thenReturn(expectedBanner);
-    BannerModel actualBanner = this.restTemplate.getForObject("http://localhost:" + port + "/banner/1",
-      BannerModel.class);
+    TemplateModel actualBanner = this.restTemplate.getForObject("http://localhost:" + port + "/banner/1",
+      TemplateModel.class);
     
     assertEquals(expectedBanner, actualBanner);
   }
 
   @Test
   public void willCreateBanner() {
-    BannerModel postedBanner = BannerModel.builder()
+    TemplateModel postedBanner = TemplateModel.builder()
       .title("BannerTitle")
       .active(false)
       .content("Banner Content")
@@ -74,8 +77,8 @@ public class BannerControllerIT {
 
     Mockito.when(bannerService.createBanner(ArgumentMatchers.any()))
       .thenReturn(postedBanner);
-    ResponseEntity<BannerModel> resp = this.restTemplate.postForEntity("http://localhost:" + port + "/banner", 
-      postedBanner, BannerModel.class);
+    ResponseEntity<TemplateModel> resp = this.restTemplate.postForEntity("http://localhost:" + port + "/banner",
+      postedBanner, TemplateModel.class);
     
     assertEquals(HttpStatus.CREATED, resp.getStatusCode());
     assertEquals(postedBanner, resp.getBody());
@@ -91,9 +94,9 @@ public class BannerControllerIT {
   @Test
   public void willGetActiveBanner() {
     Mockito.when(bannerService.getActiveBanner())
-      .thenReturn(Optional.of(BannerModel.builder().build()));
-    BannerModel banner = this.restTemplate.getForObject("http://localhost:" + port + "/banner/active",
-        BannerModel.class);
+      .thenReturn(Optional.of(TemplateModel.builder().build()));
+    TemplateModel banner = this.restTemplate.getForObject("http://localhost:" + port + "/banner/active",
+        TemplateModel.class);
     
     assertNotNull(banner);
   }
@@ -101,9 +104,9 @@ public class BannerControllerIT {
   @Test
   public void willSetAnActiveBanner() {
     Mockito.when(bannerService.setActiveBanner("1"))
-      .thenReturn(BannerModel.builder().build());
-    BannerModel banner = this.restTemplate.patchForObject("http://localhost:" + port + "/banner/1/active",
-        null, BannerModel.class);
+      .thenReturn(TemplateModel.builder().build());
+    TemplateModel banner = this.restTemplate.patchForObject("http://localhost:" + port + "/banner/1/active",
+        null, TemplateModel.class);
     
     assertNotNull(banner);
   }
