@@ -29,7 +29,7 @@ public class BannerController {
   private BannerService bannerService;
   
   @GetMapping("")
-  public ResponseEntity<List<TemplateModel>> getBanners() {
+  public ResponseEntity<List<TemplateModel>> getBanner() {
     List<TemplateModel> banners = bannerService.getAllBanners();
     return ResponseEntity.ok()
       .body(banners);

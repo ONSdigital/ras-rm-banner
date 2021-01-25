@@ -29,48 +29,23 @@ public class BannerControllerUnitTest {
 
   @Test
   public void willReturn200() {
-    ResponseEntity<List<TemplateModel>> resp = bannerController.getBanners();
+    ResponseEntity<List<TemplateModel>> resp = bannerController.getBanner();
 
     assertEquals(HttpStatus.OK, resp.getStatusCode());
   }
 
   @Test
   public void willReturnEmptyListIfNoData() {
-    ResponseEntity<List<TemplateModel>> resp = bannerController.getBanners();
+    ResponseEntity<List<TemplateModel>> resp = bannerController.getBanner();
 
     assertEquals(0, resp.getBody().size());
   }
 
   @Test
   public void willReturnBannersIfData() {
-    ResponseEntity<List<TemplateModel>> resp = bannerController.getBanners();
+    ResponseEntity<List<TemplateModel>> resp = bannerController.getBanner();
     
     assertEquals(HttpStatus.OK, resp.getStatusCode());
-  }
-
-  @Test
-  public void willReturnSingleBanner() {
-    ResponseEntity<TemplateModel> resp = bannerController.getTemplate("1");
-
-    assertEquals(HttpStatus.OK, resp.getStatusCode());
-  }
-
-  @Test
-  public void willReturn404IfNoBannerFound() {
-    Mockito.when(bannerService.getBanner("1"))
-      .thenThrow(new NoSuchElementException());
-    ResponseEntity<TemplateModel> resp = bannerController.getBanner("1");
-
-    assertEquals(HttpStatus.NOT_FOUND, resp.getStatusCode());
-  }
-
-  @Test
-  public void willReturnBadRequestIfPathVariableIsNotNumber() {
-    Mockito.when(bannerService.getBanner("abc"))
-      .thenThrow(new NumberFormatException());
-    ResponseEntity<TemplateModel> resp = bannerController.getBanner("abc");
-
-    assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
   }
 
   @Test
@@ -95,49 +70,5 @@ public class BannerControllerUnitTest {
     ResponseEntity<TemplateModel> resp = bannerController.removeBanner("abc");
 
     assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
-  }
-
-  @Test
-  public void willUpdateBanner() {
-    TemplateModel newBanner = TemplateModel.builder().title("1").id(1L).build();
-    Mockito.when(bannerService.updateBanner(newBanner))
-      .thenReturn(newBanner);
-
-    ResponseEntity<TemplateModel> resp = bannerController.updateBanner(newBanner);
-
-    assertEquals(HttpStatus.OK, resp.getStatusCode());
-  }
-
-  @Test
-  public void willReturn400IfNullBannerSuppliedForUpdate() {
-    Mockito.when(bannerService.updateBanner(null))
-      .thenThrow(new IllegalArgumentException());
-    ResponseEntity<TemplateModel> resp = bannerController.updateBanner(null);
-
-    assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
-  }
-
-  @Test
-  public void willReturn204NoActiveBanner() {
-    Mockito.when(bannerService.getActiveBanner())
-      .thenReturn(Optional.empty());
-    ResponseEntity<TemplateModel> resp = bannerController.getActiveBanner();
-
-    assertEquals(HttpStatus.NO_CONTENT, resp.getStatusCode());
-
-    Mockito.verify(bannerService).getActiveBanner();
-  }
-
-  @Test
-  public void willReturn200IfActiveBanner() {
-    TemplateModel banner = TemplateModel.builder().title("1").active(true).build();
-    Mockito.when(bannerService.getActiveBanner())
-      .thenReturn(Optional.of(banner));
-    ResponseEntity<TemplateModel> resp = bannerController.getActiveBanner();
-
-    assertEquals(HttpStatus.OK, resp.getStatusCode());
-    assertEquals(banner, resp.getBody());
-
-    Mockito.verify(bannerService).getActiveBanner();
   }
 }
