@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import uk.gov.onsdigital.banner.model.BannerModel;
 import uk.gov.onsdigital.banner.model.TemplateModel;
 import uk.gov.onsdigital.banner.service.BannerService;
 
@@ -29,22 +30,22 @@ public class BannerController {
   private BannerService bannerService;
   
   @GetMapping("")
-  public ResponseEntity<List<TemplateModel>> getBanner() {
-    List<TemplateModel> banners = bannerService.getAllBanners();
+  public ResponseEntity<BannerModel> getBanner() {
+    BannerModel banner = bannerService.getBanner("1");
     return ResponseEntity.ok()
-      .body(banners);
+      .body(banner);
   }
 
   @PostMapping("")
-  public ResponseEntity<TemplateModel> createBanner(
-      @RequestBody TemplateModel banner) {
-    TemplateModel savedBanner = bannerService.createBanner(banner);
+  public ResponseEntity<BannerModel> createBanner(
+      @RequestBody BannerModel banner) {
+    BannerModel savedBanner = bannerService.createBanner(banner);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(savedBanner);
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<TemplateModel> removeBanner(
+  public ResponseEntity<BannerModel> removeBanner(
       @PathVariable("id") String id) {
     try {
       bannerService.removeBanner(id);

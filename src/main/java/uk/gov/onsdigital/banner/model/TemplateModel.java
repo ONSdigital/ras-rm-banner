@@ -14,13 +14,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "Banner")
+@Entity(name = "Template")
 public class TemplateModel {
   
   @Id
   @Field(name = "id")
   private Long id;
-  private Boolean active;
   @Unindexed
   private String content;
   private String title;
