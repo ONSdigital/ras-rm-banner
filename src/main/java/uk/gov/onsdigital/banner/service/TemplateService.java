@@ -22,12 +22,12 @@ public class TemplateService {
   @Autowired
   private TemplateRepository bannerRepo;
 
-  public TemplateModel createBanner(TemplateModel banner) {
+  public TemplateModel createTemplate(TemplateModel banner) {
     LOGGER.info("saving banner", kv("banner", banner));
     return bannerRepo.save(banner);
   }
 
-  public TemplateModel updateBanner(TemplateModel banner) {
+  public TemplateModel updateTemplate(TemplateModel banner) {
     LOGGER.info("updating banner", kv("banner", banner));
     if (banner == null) {
       LOGGER.warn("Supplied banner cannot be null");
@@ -53,7 +53,7 @@ public class TemplateService {
     return bannerRepo.save(bannerToSave);
   }
 
-  public void removeBanner(String bannerId) {
+  public void removeTemplate(String bannerId) {
     Long longId = Long.valueOf(bannerId);
     LOGGER.info("Removing banner", 
       kv("id", bannerId));
@@ -68,7 +68,7 @@ public class TemplateService {
     return IteratorUtils.toList(bannerIter);
   }
 
-  public TemplateModel getBanner(String id) {
+  public TemplateModel getTemplate(String id) {
     LOGGER.info("Retrieving banner",
         kv("severity", "DEBUG"),
         kv("id", id));

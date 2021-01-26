@@ -21,6 +21,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import uk.gov.onsdigital.banner.DatastoreEmulator;
+import uk.gov.onsdigital.banner.model.BannerModel;
 import uk.gov.onsdigital.banner.model.TemplateModel;
 import uk.gov.onsdigital.banner.service.BannerService;
 
@@ -45,20 +46,10 @@ public class BannerControllerIT {
 
   @MockBean
   private BannerService bannerService;
-  
-  @Test
-  public void willReturnBannersObject() {
-    Mockito.when(bannerService.getAllBanners())
-      .thenReturn(List.of(TemplateModel.builder().build()));
-    List<TemplateModel> banners = this.restTemplate.getForObject("http://localhost:" + port + "/banner",
-        List.class);
-    
-    assertEquals(1, banners.size());
-  }
 
   @Test
   public void willReturnASingleBannerObject() {
-    TemplateModel expectedBanner = TemplateModel.builder().build();
+    BannerModel expectedBanner = BannerModel.builder().build();
     Mockito.when(bannerService.getBanner("1"))
       .thenReturn(expectedBanner);
     TemplateModel actualBanner = this.restTemplate.getForObject("http://localhost:" + port + "/banner/1",
@@ -69,9 +60,7 @@ public class BannerControllerIT {
 
   @Test
   public void willCreateBanner() {
-    TemplateModel postedBanner = TemplateModel.builder()
-      .title("BannerTitle")
-      .active(false)
+    BannerModel postedBanner = BannerModel.builder()
       .content("Banner Content")
       .build();
 
@@ -89,25 +78,5 @@ public class BannerControllerIT {
     this.restTemplate.delete(URI.create("http://localhost:" + port + "/banner/1")); 
     
     Mockito.verify(bannerService).removeBanner("1");
-  }
-
-  @Test
-  public void willGetActiveBanner() {
-    Mockito.when(bannerService.getActiveBanner())
-      .thenReturn(Optional.of(TemplateModel.builder().build()));
-    TemplateModel banner = this.restTemplate.getForObject("http://localhost:" + port + "/banner/active",
-        TemplateModel.class);
-    
-    assertNotNull(banner);
-  }
-
-  @Test
-  public void willSetAnActiveBanner() {
-    Mockito.when(bannerService.setActiveBanner("1"))
-      .thenReturn(TemplateModel.builder().build());
-    TemplateModel banner = this.restTemplate.patchForObject("http://localhost:" + port + "/banner/1/active",
-        null, TemplateModel.class);
-    
-    assertNotNull(banner);
   }
 }

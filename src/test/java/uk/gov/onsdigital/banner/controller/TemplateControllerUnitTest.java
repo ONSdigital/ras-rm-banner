@@ -57,7 +57,7 @@ public class TemplateControllerUnitTest {
 
   @Test
   public void willReturn404IfNoBannerFound() {
-    Mockito.when(templateService.getBanner("1"))
+    Mockito.when(templateService.getTemplate("1"))
       .thenThrow(new NoSuchElementException());
     ResponseEntity<TemplateModel> resp = templateController.getTemplate("1");
 
@@ -66,7 +66,7 @@ public class TemplateControllerUnitTest {
 
   @Test
   public void willReturnBadRequestIfPathVariableIsNotNumber() {
-    Mockito.when(templateService.getBanner("abc"))
+    Mockito.when(templateService.getTemplate("abc"))
       .thenThrow(new NumberFormatException());
     ResponseEntity<TemplateModel> resp = templateController.getTemplate("abc");
 
@@ -91,7 +91,7 @@ public class TemplateControllerUnitTest {
   public void willReturnBadRequestIfPathVariableIsNotNumberOnDelete() {
     Mockito.doThrow(new NumberFormatException())
       .when(templateService)
-      .removeBanner("abc");
+      .removeTemplate("abc");
     ResponseEntity<TemplateModel> resp = templateController.removeTemplate("abc");
 
     assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
@@ -100,7 +100,7 @@ public class TemplateControllerUnitTest {
   @Test
   public void willUpdateBanner() {
     TemplateModel newBanner = TemplateModel.builder().title("1").id(1L).build();
-    Mockito.when(templateService.updateBanner(newBanner))
+    Mockito.when(templateService.updateTemplate(newBanner))
       .thenReturn(newBanner);
 
     ResponseEntity<TemplateModel> resp = templateController.updateTemplate(newBanner);
@@ -110,7 +110,7 @@ public class TemplateControllerUnitTest {
 
   @Test
   public void willReturn400IfNullBannerSuppliedForUpdate() {
-    Mockito.when(templateService.updateBanner(null))
+    Mockito.when(templateService.updateTemplate(null))
       .thenThrow(new IllegalArgumentException());
     ResponseEntity<TemplateModel> resp = templateController.updateTemplate(null);
 

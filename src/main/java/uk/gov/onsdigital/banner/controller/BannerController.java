@@ -44,11 +44,10 @@ public class BannerController {
         .body(savedBanner);
   }
 
-  @DeleteMapping("/{id}")
-  public ResponseEntity<BannerModel> removeBanner(
-      @PathVariable("id") String id) {
+  @DeleteMapping("")
+  public ResponseEntity<BannerModel> removeBanner() {
     try {
-      bannerService.removeBanner(id);
+      bannerService.removeBanner("1");
       return ResponseEntity.noContent().build();
     } catch(NumberFormatException e) {
       LOGGER.info("supplied path variable is not a number");
