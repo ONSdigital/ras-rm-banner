@@ -34,7 +34,7 @@ public class TemplateController {
   public ResponseEntity<TemplateModel> getTemplate(
       @PathVariable("id") String id) {
     try {
-      TemplateModel banner = templateService.getBanner(id);
+      TemplateModel banner = templateService.getTemplate(id);
       return ResponseEntity.ok().body(banner);
     } catch(NumberFormatException e) {
       LOGGER.error("supplied path variable is not a number", kv("banner_id", id));
@@ -48,7 +48,7 @@ public class TemplateController {
   @PostMapping("")
   public ResponseEntity<TemplateModel> createTemplate(
       @RequestBody TemplateModel banner) {
-    TemplateModel savedBanner = templateService.createBanner(banner);
+    TemplateModel savedBanner = templateService.createTemplate(banner);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(savedBanner);
   }
@@ -57,7 +57,7 @@ public class TemplateController {
   public ResponseEntity<TemplateModel> removeTemplate(
       @PathVariable("id") String id) {
     try {
-      templateService.removeBanner(id);
+      templateService.removeTemplate(id);
       return ResponseEntity.noContent().build();
     } catch(NumberFormatException e) {
       LOGGER.info("supplied path variable is not a number");
@@ -69,7 +69,7 @@ public class TemplateController {
   public ResponseEntity<TemplateModel> updateTemplate(
       @RequestBody TemplateModel banner) {
     try {
-      TemplateModel savedBanner = templateService.updateBanner(banner);
+      TemplateModel savedBanner = templateService.updateTemplate(banner);
       return ResponseEntity.ok(savedBanner);
     } catch(IllegalArgumentException ex) {
       LOGGER.error("Invalid banner supplied", ex);

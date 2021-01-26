@@ -62,13 +62,13 @@ paths:
                 $ref: '#/components/schemas/template'
   /template:
     get:
-      summary: List of available banners
-      description: List of all banners.
+      summary: List of available templates
+      description: List of all templates.
       tags:
         - template
       responses:
         '200':
-          description: banners were retrieved successfully.
+          description: templates were retrieved successfully.
           content:
             application/json:
               schema:
@@ -76,8 +76,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/template'
     post:
-      summary: Create a new banner
-      description: Creeate a new inactive banner
+      summary: Create a new template
+      description: Create a new template
       tags:
         - template
       requestBody:
@@ -115,7 +115,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/template'
         '404':
-          description: No banner found
+          description: No template found
     delete:
       summary: Delete template.
       description: Delete a template from the database
@@ -131,9 +131,9 @@ paths:
             example: 1234567890123456
       responses:
         '204':
-          description: banner was deleted successfully.
+          description: template was deleted successfully.
         '404':
-          description: No banner found
+          description: No template found
     put:
       summary: Update template.
       description: Update a template
@@ -155,50 +155,13 @@ paths:
               $ref: '#/components/schemas/templateCreate'
       responses:
         '200':
-          description: banner was retrieved successfully.
+          description: template was retrieved successfully.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/template'
         '404':
-          description: No banner found
-  /template/active:
-    get:
-      summary: Get current active banner
-      description: Retrieve the currently active banner
-      tags:
-        - template
-      responses:
-        '200':
-          description: The banner was successfully retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/template'
-        '204':
-          description: No active banners
-  /template/{id}/active:
-    patch:
-      summary: Set a banner to active
-      description: | 
-        Sets a banner to an active state while making any other active banner inactive
-      tags:
-        - template
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-            format: long
-            example: 1234567890123456
-      responses:
-        '200':
-          description: The banner has been set to active
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/template'
+          description: No template found
 components:
   responses:
     NotFoundError:
@@ -217,9 +180,6 @@ components:
         content:
           type: string
           example: "banner content"
-        active:
-          type: boolean
-          example: true
     templateCreate:
       type: object
       properties:

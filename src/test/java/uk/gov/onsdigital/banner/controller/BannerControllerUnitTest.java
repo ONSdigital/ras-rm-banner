@@ -48,7 +48,7 @@ public class BannerControllerUnitTest {
 
   @Test
   public void willRemoveBanner() {
-    ResponseEntity<BannerModel> resp = bannerController.removeBanner("1");
+    ResponseEntity<BannerModel> resp = bannerController.removeBanner();
     assertEquals(HttpStatus.NO_CONTENT, resp.getStatusCode());
   }
 }
