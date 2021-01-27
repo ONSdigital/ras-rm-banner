@@ -25,20 +25,6 @@ public class TemplateServiceUnitTest {
 
   @Mock
   private TemplateRepository templateRepo;
-  
-  @Test
-  public void willUpdateBanner() {
-    TemplateModel newBanner = TemplateModel.builder().title("1").id(1L).build();
-    TemplateModel preExisting = TemplateModel.builder().title("title").id(1L).build();
-    Mockito.when(templateRepo.findById(1L))
-      .thenReturn(Optional.of(preExisting));
-
-    templateService.updateTemplate(newBanner);
-
-    Mockito.verify(templateRepo, never()).save(newBanner);
-    Mockito.verify(templateRepo).save(preExisting);
-    assertEquals("1", preExisting.getTitle());
-  }
 
   @Test
   public void willReturnBannerIfNoChangesToUpdate() {
