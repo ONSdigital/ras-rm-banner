@@ -1,11 +1,4 @@
-package uk.gov.onsdigital.banner;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.Optional;
+package uk.gov.onsdigital.banner.repository;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,14 +6,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import uk.gov.onsdigital.banner.DatastoreEmulator;
+import uk.gov.onsdigital.banner.model.BannerModel;
 import uk.gov.onsdigital.banner.model.TemplateModel;
-import uk.gov.onsdigital.banner.repository.TemplateRepository;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class TemplateRepositoryIT {
+public class BannerRepositoryIT {
   
   @Autowired
-  private TemplateRepository bannerRepo;
+  private BannerRepository bannerRepo;
 
   @BeforeAll
   public static void setUpClass() {
@@ -39,38 +35,37 @@ public class TemplateRepositoryIT {
 
   @Test
   public void willSaveToDatastore() {
-    TemplateModel model =
-      bannerRepo.save(TemplateModel.builder()
-        .title("A Banner")
+    BannerModel model =
+      bannerRepo.save(BannerModel.builder()
+        .id("active")
         .content("Hello world")
         .build());
-    
-    assertEquals("A Banner", model.getTitle());
+
     assertEquals("Hello world", model.getContent());
-    assertNotNull(model.getId());
+    assertEquals("active", model.getId());
   }
 
   @Test
   public void willGetFromDatastore() {
-    TemplateModel model =
-      bannerRepo.save(TemplateModel.builder()
-        .title("A Banner")
+    BannerModel model =
+      bannerRepo.save(BannerModel.builder()
+        .id("active")
         .content("Hello world")
         .build());
     
-    assertEquals("A Banner", model.getTitle());
+    assertEquals("A Banner", model.getId());
     assertEquals("Hello world", model.getContent());
 
-    TemplateModel retrievedModel = bannerRepo.findById(model.getId()).get();
+    BannerModel retrievedModel = bannerRepo.findById(model.getId()).get();
 
     assertEquals(model, retrievedModel);
   }
 
   @Test
   public void willDeleteFromDatastore() {
-    TemplateModel model =
-      bannerRepo.save(TemplateModel.builder()
-        .title("A Banner")
+    BannerModel model =
+      bannerRepo.save(BannerModel.builder()
+        .id("active")
         .content("Hello world")
         .build());
     
@@ -83,17 +78,17 @@ public class TemplateRepositoryIT {
 
   @Test
   public void willUpdateInDatastore() {
-    TemplateModel model =
-      bannerRepo.save(TemplateModel.builder()
-        .title("A Banner")
+    BannerModel model =
+      bannerRepo.save(BannerModel.builder()
+        .id("active")
         .content("Hello world")
         .build());
     
     assertNotNull(model.getId());
 
-    model.setTitle("Another banner");
+    model.setContent("Another banner");
     bannerRepo.save(model);
 
-    assertEquals(bannerRepo.findById(model.getId()).get().getTitle(), "Another banner");
+    assertEquals(bannerRepo.findById(model.getId()).get().getContent(), "Another banner");
   }
 }

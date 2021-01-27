@@ -50,10 +50,10 @@ public class BannerControllerIT {
   @Test
   public void willReturnASingleBannerObject() {
     BannerModel expectedBanner = BannerModel.builder().build();
-    Mockito.when(bannerService.getBanner("1"))
+    Mockito.when(bannerService.getBanner("active"))
       .thenReturn(expectedBanner);
-    TemplateModel actualBanner = this.restTemplate.getForObject("http://localhost:" + port + "/banner",
-      TemplateModel.class);
+    BannerModel actualBanner = this.restTemplate.getForObject("http://localhost:" + port + "/banner",
+      BannerModel.class);
     
     assertEquals(expectedBanner, actualBanner);
   }
@@ -66,8 +66,8 @@ public class BannerControllerIT {
 
     Mockito.when(bannerService.createBanner(ArgumentMatchers.any()))
       .thenReturn(postedBanner);
-    ResponseEntity<TemplateModel> resp = this.restTemplate.postForEntity("http://localhost:" + port + "/banner",
-      postedBanner, TemplateModel.class);
+    ResponseEntity<BannerModel> resp = this.restTemplate.postForEntity("http://localhost:" + port + "/banner",
+      postedBanner, BannerModel.class);
     
     assertEquals(HttpStatus.CREATED, resp.getStatusCode());
     assertEquals(postedBanner, resp.getBody());
@@ -77,6 +77,6 @@ public class BannerControllerIT {
   public void willRemoveBanner() {
     this.restTemplate.delete(URI.create("http://localhost:" + port + "/banner"));
     
-    Mockito.verify(bannerService).removeBanner("1");
+    Mockito.verify(bannerService).removeBanner("active");
   }
 }
