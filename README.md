@@ -13,11 +13,11 @@ This service will also be harnessed for upcoming work on ras-frontstage.
 
 ## API endpoints
 #### Management of Banners
-* `GET /banner` - Returns a JSON response of all the current alert banners stored in Datastore
-* `GET /banner/<banner-Id>` - returns a JSON response of the specified alert banner
-* `POST /banner` - Stores a new banner in the Datastore or updates current with same title
-* `PUT /banner/<banner-Id>` - Updates the banner attributes accordingly.
-* `DELETE /banner/<banner-Id>` - Deletes a banner in the Datastore with the corresponding key (Title)
+* `GET /template` - Returns a JSON response of all the current templates stored in Datastore
+* `GET /template/<banner-Id>` - returns a JSON response of the specified template
+* `POST /template` - Stores a new template in the Datastore or updates current with same title
+* `PUT /template/<banner-Id>` - Updates the template attributes accordingly.
+* `DELETE /template/<banner-Id>` - Deletes a template in the Datastore with the corresponding key (Title)
   
 * `GET /banner` - Returns the currently active banner
 * `POST /banner` - Stores the text for the active banner
@@ -25,7 +25,13 @@ This service will also be harnessed for upcoming work on ras-frontstage.
 
 ## Data
 
-### Kind: Banners
+### Kind: Banner
+| Name          | Type          | Value
+|---------------|---------------|----------------
+| id            | Long          | Banner id
+| content       | String        | Banner message
+
+### Kind: Templates
 | Name          | Type          | Value
 |---------------|---------------|----------------
 | id            | Long          | Banner id

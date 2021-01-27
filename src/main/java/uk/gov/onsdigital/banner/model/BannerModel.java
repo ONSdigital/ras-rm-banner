@@ -17,7 +17,7 @@ import org.springframework.data.annotation.Id;
 public class BannerModel {
   @Id
   @Field(name = "id")
-  private Long id;
+  private String id;
   @Unindexed
   private String content;
 }

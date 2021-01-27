@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.onsdigital.banner.controller.BannerController;
 import uk.gov.onsdigital.banner.service.BannerService;
+import uk.gov.onsdigital.banner.service.TemplateService;
 
 @WebMvcTest(value = BannerController.class)
 public class ControllerAdviceIT {
@@ -23,15 +24,15 @@ public class ControllerAdviceIT {
   private MockMvc mockMvc;
 
   @MockBean
-  private BannerService bannerService;
+  private TemplateService templateService;
   
   @Test
   public void willThrow500OnRuntimeException() throws Exception {
     RequestBuilder requestBuilder = MockMvcRequestBuilders
-      .patch("/banner/1/active")
+      .get("/template/1")
       .accept(MediaType.APPLICATION_JSON);
 
-    Mockito.when(bannerService.setActiveBanner("1"))
+    Mockito.when(templateService.getTemplate("1"))
       .thenThrow(new IllegalStateException());
     
     MvcResult result = mockMvc.perform(requestBuilder).andReturn();

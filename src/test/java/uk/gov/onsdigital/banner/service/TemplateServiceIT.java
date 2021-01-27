@@ -13,7 +13,7 @@ import uk.gov.onsdigital.banner.DatastoreEmulator;
 import uk.gov.onsdigital.banner.service.BannerService;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class BannerServiceIT {
+public class TemplateServiceIT {
   
   @Autowired
   private BannerService bannerService;

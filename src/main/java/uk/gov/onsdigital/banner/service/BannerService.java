@@ -20,30 +20,25 @@ public class BannerService {
   private BannerRepository bannerRepo;
 
   public BannerModel getBanner(String id) {
-    LOGGER.info("Retrieving banner",
-            kv("severity", "DEBUG"),
-            kv("id", id));
-    Long longId = Long.valueOf(id);
-    Optional<BannerModel> banner = bannerRepo.findById(longId);
+    LOGGER.debug("Retrieving banner", kv("id", id));
+    Optional<BannerModel> banner = bannerRepo.findById(id);
     if (banner.isPresent()) {
       LOGGER.info("Banner retrieved",
-              kv("banner", banner),
-              kv("severity", "INFO"));
+              kv("banner", banner));
     }
     return banner.orElseThrow();
   }
 
   public BannerModel createBanner(BannerModel banner) {
-    banner.setId(1L);
+    banner.setId("active");
     LOGGER.info("saving banner", kv("banner", banner));
     return bannerRepo.save(banner);
   }
 
   public void removeBanner(String bannerId) {
-    Long longId = Long.valueOf(bannerId);
     LOGGER.info("Removing banner", 
       kv("id", bannerId));
-    bannerRepo.deleteById(longId);
+    bannerRepo.deleteById(bannerId);
     LOGGER.info("banner removed", 
       kv("id", bannerId));
   }

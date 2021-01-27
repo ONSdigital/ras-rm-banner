@@ -42,12 +42,10 @@ public class TemplateRepositoryIT {
     TemplateModel model =
       bannerRepo.save(TemplateModel.builder()
         .title("A Banner")
-        .active(true)
         .content("Hello world")
         .build());
     
     assertEquals("A Banner", model.getTitle());
-    assertTrue(model.getActive());
     assertEquals("Hello world", model.getContent());
     assertNotNull(model.getId());
   }
@@ -57,12 +55,10 @@ public class TemplateRepositoryIT {
     TemplateModel model =
       bannerRepo.save(TemplateModel.builder()
         .title("A Banner")
-        .active(true)
         .content("Hello world")
         .build());
     
     assertEquals("A Banner", model.getTitle());
-    assertTrue(model.getActive());
     assertEquals("Hello world", model.getContent());
 
     TemplateModel retrievedModel = bannerRepo.findById(model.getId()).get();
@@ -75,7 +71,6 @@ public class TemplateRepositoryIT {
     TemplateModel model =
       bannerRepo.save(TemplateModel.builder()
         .title("A Banner")
-        .active(true)
         .content("Hello world")
         .build());
     
@@ -91,57 +86,14 @@ public class TemplateRepositoryIT {
     TemplateModel model =
       bannerRepo.save(TemplateModel.builder()
         .title("A Banner")
-        .active(true)
         .content("Hello world")
         .build());
     
     assertNotNull(model.getId());
 
-    model.setActive(false);
+    model.setTitle("Another banner");
     bannerRepo.save(model);
 
-    assertFalse(bannerRepo.findById(model.getId()).get().getActive());
-  }
-
-  @Test
-  public void willReturnActiveBanner() {
-    bannerRepo.save(TemplateModel.builder()
-      .title("A Banner")
-      .active(false)
-      .content("Hello world")
-      .build());
-    
-    TemplateModel model =
-      bannerRepo.save(TemplateModel.builder()
-        .title("A Banner")
-        .active(true)
-        .content("Hello world")
-        .build());
-    
-    assertNotNull(model.getId());
-
-    bannerRepo.findById(model.getId());
-
-    Optional<TemplateModel> actualModel = bannerRepo.findActiveBanner();
-
-    assertTrue(actualModel.isPresent());
-    assertEquals(model.getId(), actualModel.get().getId());
-  }
-
-  @Test
-  public void willReturnEmptyOptionalIfNoActiveBanner() {
-    TemplateModel model = bannerRepo.save(TemplateModel.builder()
-      .title("A Banner")
-      .active(false)
-      .content("Hello world")
-      .build());
-    
-    assertNotNull(model.getId());
-
-    bannerRepo.findById(model.getId());
-
-    Optional<TemplateModel> actualModel = bannerRepo.findActiveBanner();
-
-    assertFalse(actualModel.isPresent());
+    assertEquals(bannerRepo.findById(model.getId()).get().getTitle(), "Another banner");
   }
 }

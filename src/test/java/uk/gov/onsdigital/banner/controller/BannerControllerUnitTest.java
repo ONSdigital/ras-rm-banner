@@ -35,12 +35,6 @@ public class BannerControllerUnitTest {
   }
 
   @Test
-  public void willReturn204IfNoData() {
-    ResponseEntity<BannerModel> resp = bannerController.getBanner();
-    assertEquals(HttpStatus.NO_CONTENT, resp.getStatusCode());
-  }
-
-  @Test
   public void willCreateBanner() {
     ResponseEntity<BannerModel> resp = bannerController.createBanner(new BannerModel());
     assertEquals(HttpStatus.CREATED, resp.getStatusCode());

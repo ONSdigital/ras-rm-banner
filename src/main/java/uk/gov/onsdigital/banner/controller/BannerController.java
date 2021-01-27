@@ -31,7 +31,7 @@ public class BannerController {
   
   @GetMapping("")
   public ResponseEntity<BannerModel> getBanner() {
-    BannerModel banner = bannerService.getBanner("1");
+    BannerModel banner = bannerService.getBanner("active");
     return ResponseEntity.ok()
       .body(banner);
   }
@@ -46,12 +46,7 @@ public class BannerController {
 
   @DeleteMapping("")
   public ResponseEntity<BannerModel> removeBanner() {
-    try {
-      bannerService.removeBanner("1");
+      bannerService.removeBanner("active");
       return ResponseEntity.noContent().build();
-    } catch(NumberFormatException e) {
-      LOGGER.info("supplied path variable is not a number");
-      return ResponseEntity.badRequest().build();
-    }
   }
 }

@@ -52,7 +52,7 @@ public class BannerControllerIT {
     BannerModel expectedBanner = BannerModel.builder().build();
     Mockito.when(bannerService.getBanner("1"))
       .thenReturn(expectedBanner);
-    TemplateModel actualBanner = this.restTemplate.getForObject("http://localhost:" + port + "/banner/1",
+    TemplateModel actualBanner = this.restTemplate.getForObject("http://localhost:" + port + "/banner",
       TemplateModel.class);
     
     assertEquals(expectedBanner, actualBanner);
@@ -75,7 +75,7 @@ public class BannerControllerIT {
 
   @Test
   public void willRemoveBanner() {
-    this.restTemplate.delete(URI.create("http://localhost:" + port + "/banner/1")); 
+    this.restTemplate.delete(URI.create("http://localhost:" + port + "/banner"));
     
     Mockito.verify(bannerService).removeBanner("1");
   }
