@@ -52,7 +52,7 @@ public class BannerRepositoryIT {
         .content("Hello world")
         .build());
     
-    assertEquals("A Banner", model.getId());
+    assertEquals("active", model.getId());
     assertEquals("Hello world", model.getContent());
 
     BannerModel retrievedModel = bannerRepo.findById(model.getId()).get();
