@@ -39,9 +39,9 @@ public class BannerControllerIT {
   }
 
   @LocalServerPort
-	private int port;
+  private int port;
 
-	@Autowired
+  @Autowired
   private TestRestTemplate restTemplate;
 
   @MockBean

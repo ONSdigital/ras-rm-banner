@@ -3,9 +3,6 @@ package uk.gov.onsdigital.banner.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.Optional;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import uk.gov.onsdigital.banner.DatastoreEmulator;
 import uk.gov.onsdigital.banner.model.TemplateModel;
-import uk.gov.onsdigital.banner.repository.TemplateRepository;
 
 @SpringBootTest
 public class TemplateRepositoryIT {

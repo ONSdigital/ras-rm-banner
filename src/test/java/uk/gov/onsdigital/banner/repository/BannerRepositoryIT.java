@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import uk.gov.onsdigital.banner.DatastoreEmulator;
 import uk.gov.onsdigital.banner.model.BannerModel;
-import uk.gov.onsdigital.banner.model.TemplateModel;
 
 import static org.junit.jupiter.api.Assertions.*;
 
