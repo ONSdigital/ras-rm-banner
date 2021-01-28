@@ -30,8 +30,6 @@ public class ControllerAdviceIT {
   @MockBean
   private BannerService bannerService;
 
-  @MockBean
-  private BannerRepository bannerRepository;
   
   @Test
   public void willThrow500OnRuntimeException() throws Exception {
