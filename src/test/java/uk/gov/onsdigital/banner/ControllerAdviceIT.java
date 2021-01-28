@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.onsdigital.banner.controller.BannerController;
+import uk.gov.onsdigital.banner.repository.BannerRepository;
+import uk.gov.onsdigital.banner.service.BannerService;
 import uk.gov.onsdigital.banner.service.TemplateService;
 
 @WebMvcTest(value = BannerController.class)
@@ -24,6 +26,12 @@ public class ControllerAdviceIT {
 
   @MockBean
   private TemplateService templateService;
+
+  @MockBean
+  private BannerService bannerService;
+
+  @MockBean
+  private BannerRepository bannerRepository;
   
   @Test
   public void willThrow500OnRuntimeException() throws Exception {
