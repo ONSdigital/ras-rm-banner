@@ -48,7 +48,7 @@ public class TemplateControllerIT {
   public void willReturnBannersObject() {
     Mockito.when(templateService.getAllTemplates())
       .thenReturn(List.of(TemplateModel.builder().build()));
-    List<TemplateModel> banners = this.restTemplate.getForObject("http://localhost:" + port + "/banner",
+    List<TemplateModel> banners = this.restTemplate.getForObject("http://localhost:" + port + "/template",
         List.class);
     
     assertEquals(1, banners.size());
