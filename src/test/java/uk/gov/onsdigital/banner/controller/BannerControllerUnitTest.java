@@ -35,6 +35,15 @@ public class BannerControllerUnitTest {
   }
 
   @Test
+  public void willReturn404IfNoBannerFound() {
+    Mockito.when(bannerService.getBanner("active"))
+            .thenThrow(new NoSuchElementException());
+    ResponseEntity<BannerModel> resp = bannerController.getBanner();
+
+    assertEquals(HttpStatus.NOT_FOUND, resp.getStatusCode());
+  }
+
+  @Test
   public void willCreateBanner() {
     ResponseEntity<BannerModel> resp = bannerController.createBanner(new BannerModel());
     assertEquals(HttpStatus.CREATED, resp.getStatusCode());

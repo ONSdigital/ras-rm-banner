@@ -12,6 +12,9 @@ This service will also be harnessed for upcoming work on ras-frontstage.
 
 
 ## API endpoints
+
+The API allows there to be multiple templates, but only one banner.
+
 #### Management of Banners
 * `GET /template` - Returns a JSON response of all the current templates stored in Datastore
 * `GET /template/<banner-Id>` - returns a JSON response of the specified template
@@ -28,7 +31,7 @@ This service will also be harnessed for upcoming work on ras-frontstage.
 ### Kind: Banner
 | Name          | Type          | Value
 |---------------|---------------|----------------
-| id            | Long          | Banner id
+| id            | String        | Banner id
 | content       | String        | Banner message
 
 ### Kind: Templates
@@ -37,7 +40,6 @@ This service will also be harnessed for upcoming work on ras-frontstage.
 | id            | Long          | Banner id
 | title         | String        | Title of the banner
 | content       | String        | Banner message
-| active        | Boolean       | is this banner currently set
 
 
 ### Components

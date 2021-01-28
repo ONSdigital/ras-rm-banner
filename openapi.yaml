@@ -29,7 +29,9 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/template'
+                  $ref: '#/components/schemas/banner'
+        '404':
+          description: No banner found
     post:
       summary: Create a new banner
       description: Creeate a new inactive banner
@@ -47,19 +49,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/template'
+                $ref: '#/components/schemas/banner'
     delete:
-      summary: Create a new banner
-      description: Creeate a new inactive banner
+      summary: Delete currently active banner
+      description: Delete currently active banner
       tags:
         - banner
       responses:
-        '201':
-          description: banner was created successfully.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/template'
+        '204':
+          description: Banner was deleted successfully.
   /template:
     get:
       summary: List of available templates
@@ -186,6 +184,15 @@ components:
         title:
           type: string
           example: "Banner title"
+        content:
+          type: string
+          example: "banner content"
+    banner:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "active"
         content:
           type: string
           example: "banner content"

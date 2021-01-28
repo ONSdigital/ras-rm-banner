@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.gov.onsdigital.banner.model.BannerModel;
 import uk.gov.onsdigital.banner.service.BannerService;
 
+import java.util.NoSuchElementException;
+
+import static net.logstash.logback.argument.StructuredArguments.kv;
+
 @RestController
 @RequestMapping("/banner")
 public class BannerController {
@@ -25,9 +29,13 @@ public class BannerController {
   
   @GetMapping("")
   public ResponseEntity<BannerModel> getBanner() {
-    BannerModel banner = bannerService.getBanner("active");
-    return ResponseEntity.ok()
-      .body(banner);
+    try {
+      BannerModel banner = bannerService.getBanner("active");
+      return ResponseEntity.ok().body(banner);
+    } catch(NoSuchElementException e) {
+      LOGGER.info("No banner currently active");
+      return ResponseEntity.notFound().build();
+    }
   }
 
   @PostMapping("")

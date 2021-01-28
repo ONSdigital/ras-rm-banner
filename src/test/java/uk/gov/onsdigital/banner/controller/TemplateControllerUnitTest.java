@@ -42,21 +42,21 @@ public class TemplateControllerUnitTest {
   }
 
   @Test
-  public void willReturnBannersIfData() {
+  public void willReturnTemplatesIfData() {
     ResponseEntity<List<TemplateModel>> resp = templateController.getTemplates();
     
     assertEquals(HttpStatus.OK, resp.getStatusCode());
   }
 
   @Test
-  public void willReturnSingleBanner() {
+  public void willReturnSingleTemplate() {
     ResponseEntity<TemplateModel> resp = templateController.getTemplate("1");
 
     assertEquals(HttpStatus.OK, resp.getStatusCode());
   }
 
   @Test
-  public void willReturn404IfNoBannerFound() {
+  public void willReturn404IfNoTemplateFound() {
     Mockito.when(templateService.getTemplate("1"))
       .thenThrow(new NoSuchElementException());
     ResponseEntity<TemplateModel> resp = templateController.getTemplate("1");
@@ -74,7 +74,7 @@ public class TemplateControllerUnitTest {
   }
 
   @Test
-  public void willCreateBanner() {
+  public void willCreateTemplate() {
     ResponseEntity<TemplateModel> resp = templateController.createTemplate(new TemplateModel());
 
     assertEquals(HttpStatus.CREATED, resp.getStatusCode());
