@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "Template")
+@Entity(name = "BannerTemplate")
 public class TemplateModel {
   
   @Id
