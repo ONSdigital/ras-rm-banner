@@ -1,7 +1,5 @@
 package uk.gov.onsdigital.banner.repository;
 
-import java.util.Optional;
-
 import org.springframework.cloud.gcp.data.datastore.repository.DatastoreRepository;
 import uk.gov.onsdigital.banner.model.TemplateModel;
 

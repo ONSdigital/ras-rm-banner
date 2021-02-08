@@ -20,65 +20,65 @@ public class TemplateService {
   private static final Logger LOGGER = LoggerFactory.getLogger(TemplateService.class);
   
   @Autowired
-  private TemplateRepository bannerRepo;
+  private TemplateRepository templateRepo;
 
-  public TemplateModel createTemplate(TemplateModel banner) {
-    LOGGER.info("saving banner", kv("banner", banner));
-    return bannerRepo.save(banner);
+  public TemplateModel createTemplate(TemplateModel template) {
+    LOGGER.info("saving template", kv("template", template));
+    return templateRepo.save(template);
   }
 
-  public TemplateModel updateTemplate(TemplateModel banner) {
-    LOGGER.info("updating banner", kv("banner", banner));
-    if (banner == null) {
-      LOGGER.warn("Supplied banner cannot be null");
-      throw new IllegalArgumentException("null banner supplied for updating");
+  public TemplateModel updateTemplate(TemplateModel template) {
+    LOGGER.info("updating template", kv("template", template));
+    if (template == null) {
+      LOGGER.warn("Supplied template cannot be null");
+      throw new IllegalArgumentException("null template supplied for updating");
     }
 
-    TemplateModel bannerToSave = bannerRepo.findById(banner.getId())
+    TemplateModel templateToSave = templateRepo.findById(template.getId())
       .map(b -> {
-        LOGGER.info("Updating banner", kv("oldBanner", b), 
-          kv("newTitle", banner.getTitle()), 
-          kv("newContent", banner.getContent()));
-        b.setContent(banner.getContent());
-        b.setTitle(banner.getTitle());
+        LOGGER.info("Updating template", kv("oldtemplate", b),
+          kv("newTitle", template.getTitle()),
+          kv("newContent", template.getContent()));
+        b.setContent(template.getContent());
+        b.setTitle(template.getTitle());
         return b;
       })
-      .orElse(banner);
-    if (bannerToSave == banner) {
-      LOGGER.info("No changes detected, banner will not be updated", 
-        kv("banner", banner));
-      return banner;
+      .orElse(template);
+    if (templateToSave.equals(template)) {
+      LOGGER.info("No changes detected, template will not be updated",
+        kv("template", template));
+      return template;
     }
-    LOGGER.info("Saving updated banner to database", kv("banner", banner));
-    return bannerRepo.save(bannerToSave);
+    LOGGER.info("Saving updated template to database", kv("template", template));
+    return templateRepo.save(templateToSave);
   }
 
-  public void removeTemplate(String bannerId) {
-    Long longId = Long.valueOf(bannerId);
-    LOGGER.info("Removing banner", 
-      kv("id", bannerId));
-    bannerRepo.deleteById(longId);
-    LOGGER.info("banner removed", 
-      kv("id", bannerId));
+  public void removeTemplate(String templateId) {
+    Long longId = Long.valueOf(templateId);
+    LOGGER.info("Removing template",
+      kv("id", templateId));
+    templateRepo.deleteById(longId);
+    LOGGER.info("template removed",
+      kv("id", templateId));
   }
 
   public List<TemplateModel> getAllTemplates() {
-    LOGGER.info("Retrieving all banners");
-    Iterator<TemplateModel> bannerIter = bannerRepo.findAll().iterator();
-    return IteratorUtils.toList(bannerIter);
+    LOGGER.info("Retrieving all templates");
+    Iterator<TemplateModel> templateIter = templateRepo.findAll().iterator();
+    return IteratorUtils.toList(templateIter);
   }
 
   public TemplateModel getTemplate(String id) {
-    LOGGER.info("Retrieving banner",
+    LOGGER.info("Retrieving template",
         kv("severity", "DEBUG"),
         kv("id", id));
     Long longId = Long.valueOf(id);
-    Optional<TemplateModel> banner = bannerRepo.findById(longId);
-    if (banner.isPresent()) {
-      LOGGER.info("Banner retrieved", 
-          kv("banner", banner),
+    Optional<TemplateModel> template = templateRepo.findById(longId);
+    if (template.isPresent()) {
+      LOGGER.info("Template retrieved",
+          kv("template", template),
           kv("severity", "INFO"));
     }
-    return banner.orElseThrow();
+    return template.orElseThrow();
   }
 }

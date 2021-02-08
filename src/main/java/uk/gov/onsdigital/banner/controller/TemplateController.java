@@ -25,9 +25,9 @@ public class TemplateController {
   
   @GetMapping("")
   public ResponseEntity<List<TemplateModel>> getTemplates() {
-    List<TemplateModel> banners = templateService.getAllTemplates();
+    List<TemplateModel> templates = templateService.getAllTemplates();
     return ResponseEntity.ok()
-      .body(banners);
+      .body(templates);
   }
 
   @GetMapping("/{id}")
@@ -40,17 +40,17 @@ public class TemplateController {
       LOGGER.error("supplied path variable is not a number", kv("banner_id", id));
       return ResponseEntity.badRequest().build();
     } catch(NoSuchElementException e) {
-      LOGGER.error("Banner not found", kv("banner_id", id));
+      LOGGER.error("Template not found", kv("banner_id", id));
       return ResponseEntity.notFound().build();
     }
   }
 
   @PostMapping("")
   public ResponseEntity<TemplateModel> createTemplate(
-      @RequestBody TemplateModel banner) {
-    TemplateModel savedBanner = templateService.createTemplate(banner);
+      @RequestBody TemplateModel template) {
+    TemplateModel savedTemplate = templateService.createTemplate(template);
     return ResponseEntity.status(HttpStatus.CREATED)
-        .body(savedBanner);
+        .body(savedTemplate);
   }
 
   @DeleteMapping("/{id}")
@@ -67,12 +67,12 @@ public class TemplateController {
 
   @PutMapping("")
   public ResponseEntity<TemplateModel> updateTemplate(
-      @RequestBody TemplateModel banner) {
+      @RequestBody TemplateModel template) {
     try {
-      TemplateModel savedBanner = templateService.updateTemplate(banner);
-      return ResponseEntity.ok(savedBanner);
+      TemplateModel savedTemplate = templateService.updateTemplate(template);
+      return ResponseEntity.ok(savedTemplate);
     } catch(IllegalArgumentException ex) {
-      LOGGER.error("Invalid banner supplied", ex);
+      LOGGER.error("Invalid template supplied", ex);
       return ResponseEntity.badRequest().build();
     }
   }
