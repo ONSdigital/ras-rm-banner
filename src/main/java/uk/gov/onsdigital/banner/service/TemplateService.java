@@ -10,6 +10,7 @@ import uk.gov.onsdigital.banner.repository.TemplateRepository;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static net.logstash.logback.argument.StructuredArguments.kv;
@@ -34,23 +35,27 @@ public class TemplateService {
       throw new IllegalArgumentException("null template supplied for updating");
     }
 
-    TemplateModel templateToSave = templateRepo.findById(template.getId())
-      .map(b -> {
-        LOGGER.info("Updating template", kv("oldtemplate", b),
-          kv("newTitle", template.getTitle()),
-          kv("newContent", template.getContent()));
-        b.setContent(template.getContent());
-        b.setTitle(template.getTitle());
-        return b;
-      })
-      .orElse(template);
-    if (templateToSave.equals(template)) {
-      LOGGER.info("No changes detected, template will not be updated",
-        kv("template", template));
-      return template;
+    try {
+      TemplateModel templateToSave = templateRepo.findById(template.getId())
+        .map(b -> {
+          LOGGER.info("Updating template", kv("oldtemplate", b),
+                  kv("newTitle", template.getTitle()),
+                  kv("newContent", template.getContent()));
+          b.setContent(template.getContent());
+          b.setTitle(template.getTitle());
+          return b;
+        }).orElseThrow();
+      if (templateToSave.equals(template)) {
+        LOGGER.info("No changes detected, template will not be updated",
+                kv("template", template));
+        return template;
+      }
+      LOGGER.info("Saving updated template to database", kv("template", template));
+      return templateRepo.save(templateToSave);
+    } catch (NoSuchElementException e) {
+      LOGGER.info("Template doesn't exist, creating new one", kv("template", template));
+      return createTemplate(template);
     }
-    LOGGER.info("Saving updated template to database", kv("template", template));
-    return templateRepo.save(templateToSave);
   }
 
   public void removeTemplate(String templateId) {
