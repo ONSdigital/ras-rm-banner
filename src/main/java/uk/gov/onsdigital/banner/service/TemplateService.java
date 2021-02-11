@@ -25,6 +25,10 @@ public class TemplateService {
 
   public TemplateModel createTemplate(TemplateModel template) {
     LOGGER.info("saving template", kv("template", template));
+    if (template == null) {
+      LOGGER.warn("Supplied template cannot be null");
+      throw new IllegalArgumentException("null template supplied for creation");
+    }
     return templateRepo.save(template);
   }
 
