@@ -54,3 +54,5 @@ spec:
             value: {{ .Values.gcp.project }}
           - name: SERVER_PORT
             value: "{{ .Values.container.port }}"
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
