@@ -2,11 +2,6 @@ env: ras-rm-sandbox
 namespace: dev
 publicIP: false
 
-replicas: 1
-rollingUpdate:
-  maxSurge: 1
-  maxUnavailable: 1
-
 gcp:
   project: ras-rm-sandbox
 
@@ -28,3 +23,14 @@ resources:
   limits:
     memory: "1000Mi"
     cpu: "1000m"
+
+autoscaling: false
+scaleAt:
+  # These are expressed as a percentage of resources.requests, not resources.limits
+  memoryPercentage: 130
+  cpuPercentage: 500
+replicas: 1
+maxReplicas: 1
+rollingUpdate:
+  maxSurge: 1
+  maxUnavailable: 1
