@@ -5,7 +5,7 @@ publicIP: false
 gcp:
   project: ras-rm-sandbox
   datastore:
-    namespace: "crockerm"
+    namespace: dev
 
 image:
   devRepo: eu.gcr.io/ons-rasrmbs-management
