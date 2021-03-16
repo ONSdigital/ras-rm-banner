@@ -54,5 +54,7 @@ spec:
             value: {{ .Values.gcp.project }}
           - name: SERVER_PORT
             value: "{{ .Values.container.port }}"
+          - name: GOOGLE_DATASTORE_NAMESPACE
+            value: {{ .Values.gcp.datastore.namespace }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
