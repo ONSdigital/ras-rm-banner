@@ -7,8 +7,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-    paths-ignore:
-      - _infra/helm/banner-api/Chart.yaml
+
 env:
   IMAGE: banner-api
   REGISTRY_HOSTNAME: eu.gcr.io
@@ -140,11 +139,12 @@ jobs:
       - name: Build Release Image
         if: github.ref == 'refs/heads/main'
         run: |
-          docker build -f Dockerfile -t "$REGISTRY_HOSTNAME"/"$RELEASE_HOST"/"$IMAGE":${{ steps.release.outputs.version }} .
+          docker build -f Dockerfile -t "$REGISTRY_HOSTNAME"/"$RELEASE_HOST"/"$IMAGE":latest -t "$REGISTRY_HOSTNAME"/"$RELEASE_HOST"/"$IMAGE":${{ steps.release.outputs.version }} .
       - name: Push Release image
         if: github.ref == 'refs/heads/main'
         run: |
           docker push "$REGISTRY_HOSTNAME"/"$RELEASE_HOST"/"$IMAGE":${{ steps.release.outputs.version }}
+          docker push "$REGISTRY_HOSTNAME"/"$RELEASE_HOST"/"$IMAGE":latest
 
       - name: Publish Charts
         if: github.ref == 'refs/heads/main'
