@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk11:jre-11.0.9.1_1-alpine
+FROM eclipse-temurin:17-jre-alpine
 
 RUN addgroup -S banner-group && adduser -S banner-user -G banner-group
 
