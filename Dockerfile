@@ -1,6 +1,6 @@
 FROM openjdk:17-slim
 
-RUN addgroup -S banner-group && adduser -S banner-user -G banner-group
+RUN addgroup --system banner-group && adduser --system banner-user --group banner-group
 
 RUN mkdir -p "/opt/banner"
 RUN chown banner-user:banner-group /opt/banner
