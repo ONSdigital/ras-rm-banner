@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jre-alpine
+FROM openjdk:17-slim
 
 RUN addgroup -S banner-group && adduser -S banner-user -G banner-group
 
