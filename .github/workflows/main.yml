@@ -47,6 +47,7 @@ jobs:
       - name: Setup Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v0
       - run: |
+          openssl version
           gcloud auth configure-docker
 
       - name: Test
