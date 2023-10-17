@@ -1,8 +1,8 @@
 package uk.gov.onsdigital.banner.model;
 
-import org.springframework.cloud.gcp.data.datastore.core.mapping.Entity;
-import org.springframework.cloud.gcp.data.datastore.core.mapping.Field;
-import org.springframework.cloud.gcp.data.datastore.core.mapping.Unindexed;
+import com.google.cloud.spring.data.datastore.core.mapping.Entity;
+import com.google.cloud.spring.data.datastore.core.mapping.Field;
+import com.google.cloud.spring.data.datastore.core.mapping.Unindexed;
 import org.springframework.data.annotation.Id;
 
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity(name = "BannerTemplate")
 public class TemplateModel {
-  
+
   @Id
   @Field(name = "id")
   private Long id;
