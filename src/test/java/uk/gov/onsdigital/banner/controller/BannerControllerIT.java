@@ -1,12 +1,7 @@
 package uk.gov.onsdigital.banner.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import java.net.URI;
-import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -22,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import uk.gov.onsdigital.banner.DatastoreEmulator;
 import uk.gov.onsdigital.banner.model.BannerModel;
-import uk.gov.onsdigital.banner.model.TemplateModel;
 import uk.gov.onsdigital.banner.service.BannerService;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -51,24 +45,24 @@ public class BannerControllerIT {
   public void willReturnASingleBannerObject() {
     BannerModel expectedBanner = BannerModel.builder().build();
     Mockito.when(bannerService.getBanner("active"))
-      .thenReturn(expectedBanner);
+        .thenReturn(expectedBanner);
     BannerModel actualBanner = this.restTemplate.getForObject("http://localhost:" + port + "/banner",
-      BannerModel.class);
-    
+        BannerModel.class);
+
     assertEquals(expectedBanner, actualBanner);
   }
 
   @Test
   public void willCreateBanner() {
     BannerModel postedBanner = BannerModel.builder()
-      .content("Banner Content")
-      .build();
+        .content("Banner Content")
+        .build();
 
     Mockito.when(bannerService.createBanner(ArgumentMatchers.any()))
-      .thenReturn(postedBanner);
+        .thenReturn(postedBanner);
     ResponseEntity<BannerModel> resp = this.restTemplate.postForEntity("http://localhost:" + port + "/banner",
-      postedBanner, BannerModel.class);
-    
+        postedBanner, BannerModel.class);
+
     assertEquals(HttpStatus.CREATED, resp.getStatusCode());
     assertEquals(postedBanner, resp.getBody());
   }
@@ -76,7 +70,7 @@ public class BannerControllerIT {
   @Test
   public void willRemoveBanner() {
     this.restTemplate.delete(URI.create("http://localhost:" + port + "/banner"));
-    
+
     Mockito.verify(bannerService).removeBanner("active");
   }
 }

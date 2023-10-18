@@ -16,8 +16,6 @@ import uk.gov.onsdigital.banner.service.BannerService;
 
 import java.util.NoSuchElementException;
 
-import static net.logstash.logback.argument.StructuredArguments.kv;
-
 @RestController
 @RequestMapping("/banner")
 public class BannerController {
@@ -26,13 +24,13 @@ public class BannerController {
 
   @Autowired
   private BannerService bannerService;
-  
+
   @GetMapping("")
   public ResponseEntity<BannerModel> getBanner() {
     try {
       BannerModel banner = bannerService.getBanner("active");
       return ResponseEntity.ok().body(banner);
-    } catch(NoSuchElementException e) {
+    } catch (NoSuchElementException e) {
       LOGGER.info("No banner currently active");
       return ResponseEntity.notFound().build();
     }
@@ -48,7 +46,7 @@ public class BannerController {
 
   @DeleteMapping("")
   public ResponseEntity<BannerModel> removeBanner() {
-      bannerService.removeBanner("active");
-      return ResponseEntity.noContent().build();
+    bannerService.removeBanner("active");
+    return ResponseEntity.noContent().build();
   }
 }
