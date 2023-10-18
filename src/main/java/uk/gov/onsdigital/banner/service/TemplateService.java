@@ -4,6 +4,7 @@ import org.apache.commons.collections4.IteratorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import uk.gov.onsdigital.banner.model.TemplateModel;
 import uk.gov.onsdigital.banner.repository.TemplateRepository;
@@ -16,10 +17,11 @@ import java.util.Optional;
 import static net.logstash.logback.argument.StructuredArguments.kv;
 
 @Service
+@ComponentScan(basePackages = { "uk.gov.onsdigital.banner.repository" })
 public class TemplateService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TemplateService.class);
-  
+
   @Autowired
   private TemplateRepository templateRepo;
 
@@ -41,17 +43,17 @@ public class TemplateService {
 
     try {
       TemplateModel templateToSave = templateRepo.findById(template.getId())
-        .map(b -> {
-          LOGGER.info("Updating template", kv("oldtemplate", b),
-                  kv("newTitle", template.getTitle()),
-                  kv("newContent", template.getContent()));
-          b.setContent(template.getContent());
-          b.setTitle(template.getTitle());
-          return b;
-        }).orElseThrow();
+          .map(b -> {
+            LOGGER.info("Updating template", kv("oldtemplate", b),
+                kv("newTitle", template.getTitle()),
+                kv("newContent", template.getContent()));
+            b.setContent(template.getContent());
+            b.setTitle(template.getTitle());
+            return b;
+          }).orElseThrow();
       if (templateToSave.equals(template)) {
         LOGGER.info("No changes detected, template will not be updated",
-                kv("template", template));
+            kv("template", template));
         return template;
       }
       LOGGER.info("Saving updated template to database", kv("template", template));
@@ -65,10 +67,10 @@ public class TemplateService {
   public void removeTemplate(String templateId) {
     Long longId = Long.valueOf(templateId);
     LOGGER.info("Removing template",
-      kv("id", templateId));
+        kv("id", templateId));
     templateRepo.deleteById(longId);
     LOGGER.info("template removed",
-      kv("id", templateId));
+        kv("id", templateId));
   }
 
   public List<TemplateModel> getAllTemplates() {
