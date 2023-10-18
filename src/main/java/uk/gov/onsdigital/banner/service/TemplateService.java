@@ -4,7 +4,6 @@ import org.apache.commons.collections4.IteratorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import uk.gov.onsdigital.banner.model.TemplateModel;
 import uk.gov.onsdigital.banner.repository.TemplateRepository;
@@ -17,7 +16,6 @@ import java.util.Optional;
 import static net.logstash.logback.argument.StructuredArguments.kv;
 
 @Service
-@ComponentScan(basePackages = { "uk.gov.onsdigital.banner.repository" })
 public class TemplateService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TemplateService.class);
