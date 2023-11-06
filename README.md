@@ -45,3 +45,5 @@ The API allows there to be multiple templates, but only one banner.
 ### Components
 - **Datastore** - The Datastore will now house all the alert banners to make them easily manageable from response OPS. The data entities can be seen above and take into consideration the ability to schedule banners at specific times.
 - **Scheduler** - Cronjob or Google cloud task To be investigated for scheduling banner activity.
+
+maven-test-fix
