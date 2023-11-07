@@ -9,15 +9,15 @@
         <thread>[ignore]</thread>
         <levelValue>[ignore]</levelValue>
       </fieldNames>
-      <providers>
-        <globalCustomFields>
-          <customFields>{"service":"banner-api"}</customFields>
-        </globalCustomFields>
-        <logLevel>
-          <fieldName>level</fieldName>
-          <fieldName>severity</fieldName>
-        </logLevel>
-      </providers>
+<!--      <providers>-->
+<!--        <globalCustomFields>-->
+<!--          <customFields>{"service":"banner-api"}</customFields>-->
+<!--        </globalCustomFields>-->
+<!--        <logLevel>-->
+<!--          <fieldName>level</fieldName>-->
+<!--          <fieldName>severity</fieldName>-->
+<!--        </logLevel>-->
+<!--      </providers>-->
     </encoder>
   </appender>
   <root level="INFO">
