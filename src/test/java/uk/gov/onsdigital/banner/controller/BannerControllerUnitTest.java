@@ -2,10 +2,7 @@ package uk.gov.onsdigital.banner.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,14 +11,12 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import uk.gov.onsdigital.banner.controller.BannerController;
 import uk.gov.onsdigital.banner.model.BannerModel;
-import uk.gov.onsdigital.banner.model.TemplateModel;
 import uk.gov.onsdigital.banner.service.BannerService;
 
 @ExtendWith(MockitoExtension.class)
 public class BannerControllerUnitTest {
-  
+
   @InjectMocks
   private BannerController bannerController;
 
@@ -37,7 +32,7 @@ public class BannerControllerUnitTest {
   @Test
   public void willReturn404IfNoBannerFound() {
     Mockito.when(bannerService.getBanner("active"))
-            .thenThrow(new NoSuchElementException());
+        .thenThrow(new NoSuchElementException());
     ResponseEntity<BannerModel> resp = bannerController.getBanner();
 
     assertEquals(HttpStatus.NOT_FOUND, resp.getStatusCode());

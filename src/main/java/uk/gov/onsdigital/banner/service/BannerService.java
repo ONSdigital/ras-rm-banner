@@ -15,7 +15,7 @@ import uk.gov.onsdigital.banner.repository.BannerRepository;
 public class BannerService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(BannerService.class);
-  
+
   @Autowired
   private BannerRepository bannerRepo;
 
@@ -24,7 +24,7 @@ public class BannerService {
     Optional<BannerModel> banner = bannerRepo.findById(id);
     if (banner.isPresent()) {
       LOGGER.info("Banner retrieved",
-              kv("banner", banner));
+          kv("banner", banner));
     }
     return banner.orElseThrow();
   }
@@ -36,10 +36,10 @@ public class BannerService {
   }
 
   public void removeBanner(String bannerId) {
-    LOGGER.info("Removing banner", 
-      kv("id", bannerId));
+    LOGGER.info("Removing banner",
+        kv("id", bannerId));
     bannerRepo.deleteById(bannerId);
-    LOGGER.info("banner removed", 
-      kv("id", bannerId));
+    LOGGER.info("banner removed",
+        kv("id", bannerId));
   }
 }

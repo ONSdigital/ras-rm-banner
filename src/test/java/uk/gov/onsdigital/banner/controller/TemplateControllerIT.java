@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import uk.gov.onsdigital.banner.DatastoreEmulator;
@@ -36,21 +36,21 @@ public class TemplateControllerIT {
   }
 
   @LocalServerPort
-	private int port;
+  private int port;
 
-	@Autowired
+  @Autowired
   private TestRestTemplate restTemplate;
 
   @MockBean
   private TemplateService templateService;
-  
+
   @Test
   public void willReturnBannersObject() {
     Mockito.when(templateService.getAllTemplates())
-      .thenReturn(List.of(TemplateModel.builder().build()));
+        .thenReturn(List.of(TemplateModel.builder().build()));
     List<TemplateModel> banners = this.restTemplate.getForObject("http://localhost:" + port + "/template",
         List.class);
-    
+
     assertEquals(1, banners.size());
   }
 
@@ -58,25 +58,25 @@ public class TemplateControllerIT {
   public void willReturnASingleBannerObject() {
     TemplateModel expectedBanner = TemplateModel.builder().build();
     Mockito.when(templateService.getTemplate("1"))
-      .thenReturn(expectedBanner);
+        .thenReturn(expectedBanner);
     TemplateModel actualBanner = this.restTemplate.getForObject("http://localhost:" + port + "/template/1",
-      TemplateModel.class);
-    
+        TemplateModel.class);
+
     assertEquals(expectedBanner, actualBanner);
   }
 
   @Test
   public void willCreateBanner() {
     TemplateModel postedBanner = TemplateModel.builder()
-      .title("BannerTitle")
-      .content("Banner Content")
-      .build();
+        .title("BannerTitle")
+        .content("Banner Content")
+        .build();
 
     Mockito.when(templateService.createTemplate(ArgumentMatchers.any()))
-      .thenReturn(postedBanner);
+        .thenReturn(postedBanner);
     ResponseEntity<TemplateModel> resp = this.restTemplate.postForEntity("http://localhost:" + port + "/template",
-      postedBanner, TemplateModel.class);
-    
+        postedBanner, TemplateModel.class);
+
     assertEquals(HttpStatus.CREATED, resp.getStatusCode());
     assertEquals(postedBanner, resp.getBody());
   }
@@ -84,7 +84,7 @@ public class TemplateControllerIT {
   @Test
   public void willRemoveBanner() {
     this.restTemplate.delete(URI.create("http://localhost:" + port + "/template/1"));
-    
+
     Mockito.verify(templateService).removeTemplate("1");
   }
 }

@@ -19,7 +19,7 @@ import static net.logstash.logback.argument.StructuredArguments.kv;
 public class TemplateService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TemplateService.class);
-  
+
   @Autowired
   private TemplateRepository templateRepo;
 
@@ -41,17 +41,17 @@ public class TemplateService {
 
     try {
       TemplateModel templateToSave = templateRepo.findById(template.getId())
-        .map(b -> {
-          LOGGER.info("Updating template", kv("oldtemplate", b),
-                  kv("newTitle", template.getTitle()),
-                  kv("newContent", template.getContent()));
-          b.setContent(template.getContent());
-          b.setTitle(template.getTitle());
-          return b;
-        }).orElseThrow();
+          .map(b -> {
+            LOGGER.info("Updating template", kv("oldtemplate", b),
+                kv("newTitle", template.getTitle()),
+                kv("newContent", template.getContent()));
+            b.setContent(template.getContent());
+            b.setTitle(template.getTitle());
+            return b;
+          }).orElseThrow();
       if (templateToSave.equals(template)) {
         LOGGER.info("No changes detected, template will not be updated",
-                kv("template", template));
+            kv("template", template));
         return template;
       }
       LOGGER.info("Saving updated template to database", kv("template", template));
@@ -65,10 +65,10 @@ public class TemplateService {
   public void removeTemplate(String templateId) {
     Long longId = Long.valueOf(templateId);
     LOGGER.info("Removing template",
-      kv("id", templateId));
+        kv("id", templateId));
     templateRepo.deleteById(longId);
     LOGGER.info("template removed",
-      kv("id", templateId));
+        kv("id", templateId));
   }
 
   public List<TemplateModel> getAllTemplates() {

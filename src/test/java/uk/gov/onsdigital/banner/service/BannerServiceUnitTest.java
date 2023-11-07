@@ -7,11 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.onsdigital.banner.model.BannerModel;
-import uk.gov.onsdigital.banner.model.TemplateModel;
 import uk.gov.onsdigital.banner.repository.BannerRepository;
-import uk.gov.onsdigital.banner.repository.TemplateRepository;
-
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -20,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 public class BannerServiceUnitTest {
-  
+
   @InjectMocks
   private BannerService bannerService;
 
@@ -31,7 +27,7 @@ public class BannerServiceUnitTest {
   public void willReturnSingleBanner() {
     BannerModel expected1 = BannerModel.builder().content("content text").build();
     Mockito.when(bannerRepo.findById("active"))
-      .thenReturn(Optional.of(expected1));
+        .thenReturn(Optional.of(expected1));
 
     BannerModel banner = bannerService.getBanner("active");
 
@@ -41,7 +37,7 @@ public class BannerServiceUnitTest {
   @Test
   public void willThrowIfNoBannerPresent() {
     Mockito.when(bannerRepo.findById("active"))
-      .thenReturn(Optional.empty());
+        .thenReturn(Optional.empty());
 
     assertThrows(NoSuchElementException.class, () -> bannerService.getBanner("active"));
   }
