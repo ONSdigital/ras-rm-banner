@@ -8,7 +8,7 @@ gcp:
     namespace: dev
 
 image:
-  devRepo: eu.gcr.io/ons-rasrmbs-management
+  devRepo: europe-west2-docker.pkg.dev/ons-ci-rmrasbs/images
   name: banner-api
   tag: latest
   pullPolicy: Always
