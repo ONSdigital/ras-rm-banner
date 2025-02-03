@@ -194,6 +194,6 @@ jobs:
       - name: CD hook
         if: github.ref == 'refs/heads/main'
         run: |
-          gcloud pubsub topics publish $SPINNAKER_TOPIC --project $GAR_GOOGLE_PROJECT_ID"/"$GAR_REPOSITORY \
+          gcloud pubsub topics publish $SPINNAKER_TOPIC --project $SPINNAKER_GOOGLE_PROJECT_ID \
           --message "{ \"kind\": \"storage#object\", \"name\": \"$IMAGE/$IMAGE-${{ env.HELM_VERSION }}.tgz\", \"bucket\": \"$ARTIFACT_BUCKET\" }" \
           --attribute cd="actions"
