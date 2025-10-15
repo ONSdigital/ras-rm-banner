@@ -1,0 +1,1 @@
+This is a core API used to manage a banner service across ras-rm
