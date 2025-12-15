@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import uk.gov.onsdigital.banner.controller.BannerController;
 
 @SpringBootTest
-public class ApplicationIT {
+public class ApplicationIntegrationTest {
 
   @BeforeAll
   public static void setUpClass() {

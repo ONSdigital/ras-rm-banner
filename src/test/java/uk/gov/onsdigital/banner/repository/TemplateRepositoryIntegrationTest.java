@@ -14,7 +14,7 @@ import uk.gov.onsdigital.banner.DatastoreEmulator;
 import uk.gov.onsdigital.banner.model.TemplateModel;
 
 @SpringBootTest
-public class TemplateRepositoryIT {
+public class TemplateRepositoryIntegrationTest {
   
   @Autowired
   private TemplateRepository bannerRepo;

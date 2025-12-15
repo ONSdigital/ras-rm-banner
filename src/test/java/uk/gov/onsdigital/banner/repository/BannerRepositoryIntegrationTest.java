@@ -12,7 +12,7 @@ import uk.gov.onsdigital.banner.model.BannerModel;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class BannerRepositoryIT {
+public class BannerRepositoryIntegrationTest {
   
   @Autowired
   private BannerRepository bannerRepo;
