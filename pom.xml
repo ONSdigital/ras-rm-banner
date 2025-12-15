@@ -14,6 +14,7 @@
         <spring-cloud-gcp.version>7.4.1</spring-cloud-gcp.version>
 		<spring-cloud.version>2025.0.0</spring-cloud.version>
         <spring-boot.version>3.5.8</spring-boot.version>
+        <skipITs>false</skipITs>
     </properties>
 
     <dependencyManagement>
@@ -147,7 +148,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.3</version>
                 <configuration>
-                    <skipTests>${skipUTs}</skipTests>
+                    <skipTests>${skipITs}</skipTests>
                 </configuration>
             </plugin>
             <plugin>
