@@ -5,6 +5,9 @@ publicIP: false
 serviceAccount:
   name: ras-rm-k8s-services
 
+imagePullSecrets:
+  - name: gar-secret
+
 gcp:
   project: ras-rm-sandbox
   datastore:

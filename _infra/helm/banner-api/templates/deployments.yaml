@@ -14,7 +14,7 @@ spec:
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}
       imagePullSecrets:
-        - name: gar-secret
+        {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           {{- if eq .Values.image.tag "latest"}}
