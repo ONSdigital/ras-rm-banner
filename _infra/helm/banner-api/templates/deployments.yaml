@@ -12,10 +12,9 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
-      volumes:
-        - name: google-cloud-key
-          secret:
-            secretName: google-application-credentials
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      imagePullSecrets:
+        {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           {{- if eq .Values.image.tag "latest"}}
@@ -24,9 +23,6 @@ spec:
           image: "{{ .Values.image.devRepo }}/{{ .Chart.Name }}:{{ .Values.image.tag }}"
           {{- end}}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          volumeMounts:
-            - name: google-cloud-key
-              mountPath: /var/secrets/google
           ports:
             - containerPort: {{ .Values.container.port }}
           readinessProbe:
@@ -48,8 +44,6 @@ spec:
             successThreshold: 1
             timeoutSeconds: 5
           env:
-          - name: GOOGLE_APPLICATION_CREDENTIALS
-            value: /var/secrets/google/credentials.json
           - name: SPRING_CLOUD_GCP_PROJECT_ID
             value: {{ .Values.gcp.project }}
           - name: SERVER_PORT
