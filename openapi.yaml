@@ -34,7 +34,7 @@ paths:
           description: No banner found
     post:
       summary: Create a new banner
-      description: Creeate a new inactive banner
+      description: Create a new inactive banner
       tags:
         - banner
       requestBody:
