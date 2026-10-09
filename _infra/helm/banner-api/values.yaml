@@ -1,4 +1,4 @@
-env: ras-rm-sandbox
+env: dev
 namespace: dev
 publicIP: false
 
